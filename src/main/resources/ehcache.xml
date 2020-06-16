@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache dynamicConfig="false" monitoring="off"
+	updateCheck="false"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<diskStore path="java.io.tmpdir"></diskStore>
+	<!-- rmi ehcache autodiscover -->
+<!-- 	<cacheManagerPeerProviderFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+		properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1,
+        multicastGroupPort=4446, timeToLive=32" />
+	<cacheManagerPeerListenerFactory
+		class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+		properties="port=40001, socketTimeoutMillis=2000" /> -->
+	<defaultCache eternal="false" maxElementsInMemory="1000"
+		overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
+		timeToLiveSeconds="60" memoryStoreEvictionPolicy="LRU">
+		<!-- <cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,asynchronousReplicationIntervalMillis=1000" />
+		用于初始化缓存，以及自动设置
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" /> -->
+	</defaultCache>
+
+	<cache name="test_cache" eternal="false"
+		maxElementsInMemory="1000000" overflowToDisk="false"
+		diskPersistent="false" memoryStoreEvictionPolicy="LRU"
+		timeToLiveSeconds="60">
+		<!-- <cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+                            replicateUpdatesViaCopy=true, replicateRemovals=true,asynchronousReplicationIntervalMillis=1000" />
+		用于初始化缓存，以及自动设置
+		<bootstrapCacheLoaderFactory
+			class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" /> -->
+	</cache>
+
+
+</ehcache>
