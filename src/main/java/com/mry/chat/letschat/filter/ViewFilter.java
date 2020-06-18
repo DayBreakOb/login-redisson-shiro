@@ -1,20 +1,14 @@
 package com.mry.chat.letschat.filter;
 
 import com.google.common.collect.Maps;
-import com.mry.chat.letschat.common.util.HttpUtil;
+import com.mry.chat.letschat.common.util.ServletUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.thymeleaf.exceptions.TemplateInputException;
 
 import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.nio.channels.Channel;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ViewFilter implements Filter {
@@ -89,7 +83,7 @@ public class ViewFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest request1 = (HttpServletRequest) request;
         String severltPath = request1.getServletPath();
-        if (!HttpUtil.isAjaxRequest(request1) && (!isPost(request1))&&(severltPath.endsWith(".html"))&&(views.containsKey(severltPath))) {
+        if (!ServletUtils.isAjaxRequest(request1) && (!isPost(request1))&&(severltPath.endsWith(".html"))&&(views.containsKey(severltPath))) {
             HashMap<String, Object> map = Maps.newHashMap();
             map.put("viewName", severltPath);
             RequestParameterWrapper reqmapwrapper = new RequestParameterWrapper(request1, map);

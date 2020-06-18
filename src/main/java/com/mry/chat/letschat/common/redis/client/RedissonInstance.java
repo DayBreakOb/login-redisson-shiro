@@ -2,6 +2,7 @@ package com.mry.chat.letschat.common.redis.client;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.config.ClusterServersConfig;
 import org.redisson.config.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,8 +63,10 @@ public class RedissonInstance {
         if (host.contains(";")) {
             //cluster scan time unit is ms
             String[] hosts = host.split(";");
-            cfg.useClusterServers().setScanInterval(2000).addNodeAddress(hosts).setPassword(password);
-
+            ClusterServersConfig cfgcluster = cfg.useClusterServers().setScanInterval(2000).setPassword(password);
+            for (String host : hosts){
+                cfgcluster.addNodeAddress(host);
+            }
         } else {
             cfg.useSingleServer().setAddress(host + ":" + port).setPassword(password).setTimeout(timeout);
         }

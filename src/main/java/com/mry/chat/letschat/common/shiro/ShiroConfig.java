@@ -38,9 +38,6 @@ public abstract class ShiroConfig {
     @Value("${shiro.config.anno_url}")
     public String anno_url;
 
-    @Value("${shiro.config.viewfilter_url}")
-    public String viewfilterunck;
-
     @Value("${shiro.session.sessiontimeOut:360000}")
     public long sessionTimeOut;
 
@@ -49,13 +46,8 @@ public abstract class ShiroConfig {
 
     public static Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
-    public String getViewfilterunck() {
-        return viewfilterunck;
-    }
 
-    public void setViewfilterunck(String viewfilterunck) {
-        this.viewfilterunck = viewfilterunck;
-    }
+
 
     public String getAnno_url() {
         return anno_url;
@@ -96,7 +88,7 @@ public abstract class ShiroConfig {
     public SecurityManager securityManager(IRedissonWebSessionManager sessionManager, ShiroRealm shiroRealm) {
         DefaultWebSecurityManager dsm = new DefaultWebSecurityManager();
         dsm.setRealm(shiroRealm);
-       dsm.setSessionManager(sessionManager);
+        dsm.setSessionManager(sessionManager);
        // dsm.setCacheManager(cacheManager());
        // dsm.setRememberMeManager(cookieRememberMeManager());
         SecurityUtils.setSecurityManager(dsm);
@@ -119,9 +111,9 @@ public abstract class ShiroConfig {
 
         shiroFilterFactoryBean.setFilters(filters);
         // 登录的 url
-        shiroFilterFactoryBean.setLoginUrl("/login.html");
-        shiroFilterFactoryBean.setSuccessUrl("/index.html");
-        shiroFilterFactoryBean.setUnauthorizedUrl("/error/404.html");
+        shiroFilterFactoryBean.setLoginUrl("/login");
+        shiroFilterFactoryBean.setSuccessUrl("/index");
+        shiroFilterFactoryBean.setUnauthorizedUrl("/unauthorized");
         // 未授权 url
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         // 设置免认证 url
@@ -136,8 +128,10 @@ public abstract class ShiroConfig {
         // 配置退出过滤器，其中具体的退出代码 Shiro已经替我们实现了
         filterChainDefinitionMap.put("/logout", "logout");
         // 除上以外所有 url都必须认证通过才可以访问，未通过认证自动访问 LoginUrl
+        //用户拦截器
         //filterChainDefinitionMap.put("/**", "user");
-        filterChainDefinitionMap.put("/**", "authc");
+        //表单拦截器
+       filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         logger.info("the ShiroFilterFactoryBean has benn initial ...");
