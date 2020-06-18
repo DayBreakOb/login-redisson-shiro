@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.ExpiredSessionException;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.util.WebUtils;
@@ -77,7 +78,7 @@ public class ViewController extends BaseController {
     /**
      * 登录失败，真正登录的POST请求由Filter完成
      */
-    @RequestMapping(value = "login", method = RequestMethod.POST)
+    @RequestMapping(value = "tologin", method = RequestMethod.POST)
     public String loginFailure(HttpServletRequest request, HttpServletResponse response, Model model) {
 
         // 如果已经登录，则跳转到管理首页
@@ -87,8 +88,12 @@ public class ViewController extends BaseController {
             ServletUtils.redirectUrl(request, response,  "/index" + queryString);
             return null;
         }
+        String username = request.getParameter("username");
+        String password=request.getParameter("password");
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        super.login(token);
         // 获取登录失败数据
-        return "login";
+        return "index";
     }
 
     @GetMapping("register")
@@ -114,6 +119,8 @@ public class ViewController extends BaseController {
 
     @GetMapping("/unauthorized")
     public String unauthorized() {
+
+
         return "/error/404";
     }
 
