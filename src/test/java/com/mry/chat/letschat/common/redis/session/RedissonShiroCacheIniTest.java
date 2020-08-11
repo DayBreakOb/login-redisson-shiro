@@ -13,7 +13,7 @@ import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 
-import com.mry.chat.letschat.common.cache.cachemanager.IRedissionShiroCacheManager;
+import com.mry.cache.cachemanager.IRedissionShiroCacheManager;
 
 public class RedissonShiroCacheIniTest {
 

@@ -1,1976 +1,3 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Slek - Chat and Discussion Platform</title>
-
-    <!-- Favicon -->
-    <link rel="icon" href="./dist/media/img/favicon.png" type="image/png">
-
-    <!-- Bundle Styles -->
-    <link rel="stylesheet" href="./vendor/bundle.css">
-
-    <link rel="stylesheet" href="./vendor/enjoyhint/enjoyhint.css">
-
-    <!-- App styles -->
-    <link rel="stylesheet" href="./dist/css/app.min.css">
-</head>
-<body>
-
-<!-- page loading -->
-<div class="page-loading"></div>
-<!-- ./ page loading -->
-
-<!-- page tour modal -->
-<div class="modal fade" id="pageTour" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-body text-center pt-5">
-                <div class="row">
-                    <div class="col-md-6 offset-3">
-                        <figure>
-                            <img src="dist/media/svg/undraw_product_tour_foyt.svg" class="img-fluid" alt="image">
-                        </figure>
-                        <p class="lead mt-5">Would you like to take a short page tour?</p>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-primary start-tour">Start Tour</button>
-                <button type="button" class="btn btn-link" data-dismiss="modal" aria-label="Close">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ page tour modal -->
-
-<!-- disconnected modal -->
-<div class="modal fade" id="disconnected" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row mb-5">
-                    <div class="col-md-6 offset-3">
-                        <img src="./dist/media/svg/undraw_warning_cyit.svg" class="img-fluid" alt="image">
-                    </div>
-                </div>
-                <p class="lead text-center">Application disconnected</p>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="button" class="btn btn-success btn-lg">Reconnect</button>
-                <a href="login.html" class="btn btn-link">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ disconnected modal -->
-
-<!-- voice call modal -->
-<div class="modal call fade" id="call" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="call">
-                    <div>
-                        <figure class="mb-4 avatar avatar-xl">
-                            <img src="./dist/media/img/women_avatar1.jpg" class="rounded-circle" alt="image">
-                        </figure>
-                        <h4>Brietta Blogg <span class="text-success">calling...</span></h4>
-                        <div class="action-button">
-                            <button type="button" class="btn btn-danger btn-floating btn-lg" data-dismiss="modal">
-                                <i data-feather="x"></i>
-                            </button>
-                            <button type="button" class="btn btn-success btn-pulse btn-floating btn-lg">
-                                <i data-feather="phone"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ voice call modal -->
-
-<!-- voice call modal -->
-<div class="modal call fade" id="videoCall" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="call">
-                    <div>
-                        <figure class="mb-4 avatar avatar-xl">
-                            <img src="./dist/media/img/women_avatar1.jpg" class="rounded-circle" alt="image">
-                        </figure>
-                        <h4>Brietta Blogg <span class="text-success">video calling...</span></h4>
-                        <div class="action-button">
-                            <button type="button" class="btn btn-danger btn-floating btn-lg" data-dismiss="modal">
-                                <i data-feather="x"></i>
-                            </button>
-                            <button type="button" class="btn btn-success btn-pulse btn-floating btn-lg">
-                                <i data-feather="video"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ voice call modal -->
-
-<!-- add friends modal -->
-<div class="modal fade" id="addFriends" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i data-feather="user-plus" class="mr-2"></i> Add Friends
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="ti-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-info">Send invitations to friends.</div>
-                <form>
-                    <div class="form-group">
-                        <label for="emails" class="col-form-label">Email addresses</label>
-                        <input type="text" class="form-control" id="emails">
-                    </div>
-                    <div class="form-group">
-                        <label for="message" class="col-form-label">Invitation message</label>
-                        <textarea class="form-control" id="message"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ add friends modal -->
-
-<!-- new group modal -->
-<div class="modal fade" id="newGroup" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i data-feather="users" class="mr-2"></i> New Group
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="ti-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="group_name" class="col-form-label">Group name</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="group_name">
-                            <div class="input-group-append">
-                                <button class="btn btn-light" data-toggle="tooltip" title="Emoji" type="button">
-                                    <i data-feather="smile"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="mb-2">The group members</p>
-                    <div class="form-group">
-                        <div class="avatar-group">
-                            <figure class="avatar" data-toggle="tooltip" title="Tobit Spraging">
-                                <span class="avatar-title bg-success rounded-circle">T</span>
-                            </figure>
-                            <figure class="avatar" data-toggle="tooltip" title="Cloe Jeayes">
-                                <img src="./dist/media/img/women_avatar4.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <figure class="avatar" data-toggle="tooltip" title="Marlee Perazzo">
-                                <span class="avatar-title bg-warning rounded-circle">M</span>
-                            </figure>
-                            <figure class="avatar" data-toggle="tooltip" title="Stafford Pioch">
-                                <img src="./dist/media/img/man_avatar1.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <figure class="avatar" data-toggle="tooltip" title="Bethena Langsdon">
-                                <span class="avatar-title bg-info rounded-circle">B</span>
-                            </figure>
-                            <a href="#" title="Add friends">
-                                <figure class="avatar">
-                                    <span class="avatar-title bg-primary rounded-circle">
-                                        <i data-feather="plus"></i>
-                                    </span>
-                                </figure>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="description" class="col-form-label">Description</label>
-                        <textarea class="form-control" id="description"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Create Group</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ new group modal -->
-
-<!-- setting modal -->
-<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i data-feather="settings" class="mr-2"></i> Settings
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="ti-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#account" role="tab" aria-controls="account"
-                           aria-selected="true">Account</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#notification" role="tab"
-                           aria-controls="notification" aria-selected="false">Notification</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
-                           aria-selected="false">Security</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane show active" id="account" role="tabpanel">
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" checked id="customSwitch1">
-                            <label class="custom-control-label" for="customSwitch1">Allow connected contacts</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" checked id="customSwitch2">
-                            <label class="custom-control-label" for="customSwitch2">Confirm message requests</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" checked id="customSwitch3">
-                            <label class="custom-control-label" for="customSwitch3">Profile privacy</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch4">
-                            <label class="custom-control-label" for="customSwitch4">Developer mode options</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" checked id="customSwitch5">
-                            <label class="custom-control-label" for="customSwitch5">Two-step security
-                                verification</label>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="notification" role="tabpanel">
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" checked id="customSwitch6">
-                            <label class="custom-control-label" for="customSwitch6">Allow mobile notifications</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch7">
-                            <label class="custom-control-label" for="customSwitch7">Notifications from your
-                                friends</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch8">
-                            <label class="custom-control-label" for="customSwitch8">Send notifications by email</label>
-                        </div>
-                    </div>
-                    <div class="tab-pane" id="contact" role="tabpanel">
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="customSwitch9">
-                            <label class="custom-control-label" for="customSwitch9">Suggest changing passwords every
-                                month.</label>
-                        </div>
-                        <div class="form-item custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" checked id="customSwitch10">
-                            <label class="custom-control-label" for="customSwitch10">Let me know about suspicious
-                                entries to your account</label>
-                        </div>
-                        <div class="form-item">
-                            <p>
-                                <a class="btn btn-light" data-toggle="collapse" href="#collapseExample" role="button"
-                                   aria-expanded="false"
-                                   aria-controls="collapseExample">
-                                    <i data-feather="plus" class="mr-2"></i> Security Questions
-                                </a>
-                            </p>
-                            <div class="collapse" id="collapseExample">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Question 1">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Answer 1">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Question 2">
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Answer 2">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ setting modal -->
-
-<!-- edit profile modal -->
-<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <i data-feather="edit-2" class="mr-2"></i> Edit Profile
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="ti-close"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#personal" role="tab"
-                           aria-controls="personal" aria-selected="true">Personal</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#about" role="tab" aria-controls="about"
-                           aria-selected="false">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="tab" href="#social-links" role="tab"
-                           aria-controls="social-links" aria-selected="false">Social Links</a>
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane show active" id="personal" role="tabpanel">
-                        <form>
-                            <div class="form-group">
-                                <label for="fullname" class="col-form-label">Fullname</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="fullname">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i data-feather="user"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-form-label">Avatar</label>
-                                <div class="d-flex align-items-center">
-                                    <div>
-                                        <figure class="avatar mr-3 item-rtl">
-                                            <img src="./dist/media/img/man_avatar4.jpg" class="rounded-circle"
-                                                 alt="image">
-                                        </figure>
-                                    </div>
-
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="customFile">
-                                        <label class="custom-file-label" for="customFile">Choose file</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="city" class="col-form-label">City</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="city" placeholder="Ex: Columbia">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i data-feather="target"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="phone" class="col-form-label">Phone</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="phone" placeholder="(555) 555 55 55">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i data-feather="phone"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="website" class="col-form-label">Website</label>
-                                <input type="text" class="form-control" id="website" placeholder="https://">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="about" role="tabpanel">
-                        <form>
-                            <div class="form-group">
-                                <label for="about-text" class="col-form-label">Write a few words that describe
-                                    you</label>
-                                <textarea class="form-control" id="about-text"></textarea>
-                            </div>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" checked id="customCheck1">
-                                <label class="custom-control-label" for="customCheck1">View profile</label>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="social-links" role="tabpanel">
-                        <form>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-facebook">
-                                            <i class="ti-facebook"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-twitter">
-                                            <i class="ti-twitter"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-instagram">
-                                            <i class="ti-instagram"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-linkedin">
-                                            <i class="ti-linkedin"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-dribbble">
-                                            <i class="ti-dribbble"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-youtube">
-                                            <i class="ti-youtube"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-google">
-                                            <i class="ti-google"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Username">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text bg-whatsapp">
-                                            <i class="fa fa-whatsapp"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- ./ edit profile modal -->
-
-<!-- layout -->
-<div class="layout">
-
-    <!-- navigation -->
-    <nav class="navigation">
-        <div class="nav-group">
-            <ul>
-                <li class="logo">
-                    <a href="#">
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                             width="612px" height="612px" viewBox="0 0 612 612"
-                             style="enable-background:new 0 0 612 612;" xml:space="preserve">
-                            <g>
-                                <g id="_x32__26_">
-                                    <g>
-                                    <path d="M401.625,325.125h-191.25c-10.557,0-19.125,8.568-19.125,19.125s8.568,19.125,19.125,19.125h191.25
-                                    c10.557,0,19.125-8.568,19.125-19.125S412.182,325.125,401.625,325.125z M439.875,210.375h-267.75
-                                    c-10.557,0-19.125,8.568-19.125,19.125s8.568,19.125,19.125,19.125h267.75c10.557,0,19.125-8.568,19.125-19.125
-                                    S450.432,210.375,439.875,210.375z M306,0C137.012,0,0,119.875,0,267.75c0,84.514,44.848,159.751,114.75,208.826V612
-                                    l134.047-81.339c18.552,3.061,37.638,4.839,57.203,4.839c169.008,0,306-119.875,306-267.75C612,119.875,475.008,0,306,0z
-                                    M306,497.25c-22.338,0-43.911-2.601-64.643-7.019l-90.041,54.123l1.205-88.701C83.5,414.133,38.25,345.513,38.25,267.75
-                                    c0-126.741,119.875-229.5,267.75-229.5c147.875,0,267.75,102.759,267.75,229.5S453.875,497.25,306,497.25z"/>
-                                    </g>
-                                </g>
-                            </g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                            <g></g>
-                        </svg>
-                    </a>
-                </li>
-                <li>
-                    <a class="active" data-navigation-target="chats" href="#" data-toggle="tooltip" title="Chats"
-                       data-placement="right">
-                        <span class="badge badge-warning"></span>
-                        <i data-feather="message-circle"></i>
-                    </a>
-                </li>
-                <li>
-                    <a data-navigation-target="friends" href="#" data-toggle="tooltip"
-                       title="Friends" data-placement="right">
-                        <span class="badge badge-danger"></span>
-                        <i data-feather="user"></i>
-                    </a>
-                </li>
-                <li>
-                    <a data-navigation-target="favorites" data-toggle="tooltip" title="Favorites" data-placement="right"
-                       href="#">
-                        <i data-feather="star"></i>
-                    </a>
-                </li>
-                <li class="brackets">
-                    <a data-navigation-target="archived" href="#" data-toggle="tooltip"
-                       title="Archived" data-placement="right">
-                        <i data-feather="archive"></i>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" class="dark-light-switcher" data-toggle="tooltip" title="Dark mode"
-                       data-placement="right">
-                        <i data-feather="moon"></i>
-                    </a>
-                </li>
-                <li data-toggle="tooltip" title="User menu" data-placement="right">
-                    <a href="./login.html" data-toggle="dropdown">
-                        <figure class="avatar">
-                            <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                        </figure>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#editProfileModal">Edit
-                            profile</a>
-                        <a href="#" class="dropdown-item" data-navigation-target="contact-information">Profile</a>
-                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#settingModal">Settings</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="login.html" class="dropdown-item text-danger">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- ./ navigation -->
-
-    <!-- content -->
-    <div class="content">
-
-        <!-- sidebar group -->
-        <div class="sidebar-group">
-
-            <!-- Chats sidebar -->
-            <div id="chats" class="sidebar active">
-                <header>
-                    <span>Chats</span>
-                    <ul class="list-inline">
-                        <li class="list-inline-item" data-toggle="tooltip" title="New group">
-                            <a class="btn btn-outline-light" href="#" data-toggle="modal" data-target="#newGroup">
-                                <i data-feather="users"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a class="btn btn-outline-light" data-toggle="tooltip" title="New chat" href="#"
-                               data-navigation-target="friends">
-                                <i data-feather="plus-circle"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item d-xl-none d-inline">
-                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
-                                <i data-feather="x"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </header>
-                <form>
-                    <input type="text" class="form-control" placeholder="Search chats">
-                </form>
-                <div class="sidebar-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <figure class="avatar avatar-state-success">
-                                <img src="./dist/media/img/man_avatar1.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5 class="text-primary">Townsend Seary</h5>
-                                    <p>What's up, how are you?</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="new-message-count">3</div>
-                                    <small class="text-primary">03:41 PM</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <figure class="avatar avatar-state-warning">
-                                <img src="./dist/media/img/man_avatar4.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5 class="text-primary">Forest Kroch</h5>
-                                    <p>
-                                        <i class="fa fa-camera mr-1"></i> Photo
-                                    </p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="new-message-count">1</div>
-                                    <small class="text-primary">Yesterday</small>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item open-chat">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Byrom Guittet</h5>
-                                    <p>I sent you all the files. Good luck with 😃</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">11:05 AM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/women_avatar1.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Margaretta Worvell</h5>
-                                    <p>I need you today. Can you come with me?</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <figure class="avatar">
-                                <span class="avatar-title bg-warning bg-success rounded-circle">
-                                    <i class="fa fa-users"></i>
-                                </span>
-                            </figure>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>😍 My Family 😍</h5>
-                                    <p><strong>Maher Ruslandi: </strong>Hello!!!</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">Yesterday</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar avatar-state-warning">
-                                    <img src="./dist/media/img/women_avatar1.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Jennica Kindred</h5>
-                                    <p>
-                                        <i class="fa fa-video-camera mr-1"></i>
-                                        Video
-                                    </p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <span class="avatar-title bg-info rounded-circle">M</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Marvin Rohan</h5>
-                                    <p>Have you prepared the files?</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">Yesterday</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/women_avatar2.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Townsend Seary</h5>
-                                    <p>Where are you?</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <span class="avatar-title bg-secondary rounded-circle">G</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Gibb Ivanchin</h5>
-                                    <p>I want to visit them.</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/man_avatar1.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Harald Kowalski</h5>
-                                    <p>Reports are ready.</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <span class="avatar-title bg-success rounded-circle">A</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Afton McGilvra</h5>
-                                    <p>I do not know where is it. Don't ask me, please.</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/man_avatar2.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Alexandr Donnelly</h5>
-                                    <p>Can anyone enter the meeting?</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <small class="text-muted">03:41 PM</small>
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <a href="#" class="dropdown-item">Add to archive</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- ./ Chats sidebar -->
-
-            <!-- Friends sidebar -->
-            <div id="friends" class="sidebar">
-                <header>
-                    <span>Friends</span>
-                    <ul class="list-inline">
-                        <li class="list-inline-item" data-toggle="tooltip" title="Add friends">
-                            <a class="btn btn-outline-light" href="#" data-toggle="modal" data-target="#addFriends">
-                                <i data-feather="user-plus"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item d-xl-none d-inline">
-                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
-                                <i data-feather="x"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </header>
-                <form>
-                    <input type="text" class="form-control" placeholder="Search friends">
-                </form>
-                <div class="sidebar-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Harrietta Souten</h5>
-                                    <p>Dental Hygienist</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar avatar-state-warning">
-                                    <span class="avatar-title bg-success rounded-circle">A</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Aline McShee</h5>
-                                    <p>Marketing Assistant</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar avatar-state-success">
-                                    <img src="./dist/media/img/women_avatar1.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Brietta Blogg</h5>
-                                    <p>Actuary</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar avatar-state-success">
-                                    <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Karl Hubane</h5>
-                                    <p>Chemical Engineer</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/man_avatar2.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Jillana Tows</h5>
-                                    <p>Project Manager</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar avatar-state-success">
-                                    <span class="avatar-title bg-info rounded-circle">AD</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Alina Derington</h5>
-                                    <p>Nurse</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar avatar-state-secondary">
-                                    <span class="avatar-title bg-warning rounded-circle">S</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Stevy Kermeen</h5>
-                                    <p>Associate Professor</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/man_avatar1.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Stevy Kermeen</h5>
-                                    <p>Senior Quality Engineer</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar">
-                                    <img src="./dist/media/img/man_avatar5.jpg" class="rounded-circle" alt="image">
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Gloriane Shimmans</h5>
-                                    <p>Web Designer</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item" data-navigation-target="chats">
-                            <div>
-                                <figure class="avatar avatar-state-warning">
-                                    <span class="avatar-title bg-secondary rounded-circle">B</span>
-                                </figure>
-                            </div>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Bernhard Perrett</h5>
-                                    <p>Software Engineer</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">New chat</a>
-                                                <a href="#" data-navigation-target="contact-information"
-                                                   class="dropdown-item">Profile</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Block</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- ./ Friends sidebar -->
-
-            <!-- Favorites sidebar -->
-            <div id="favorites" class="sidebar">
-                <header>
-                    <span>Favorites</span>
-                    <ul class="list-inline">
-                        <li class="list-inline-item d-xl-none d-inline">
-                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
-                                <i data-feather="x"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </header>
-                <form>
-                    <input type="text" class="form-control" placeholder="Search favorites">
-                </form>
-                <div class="sidebar-body">
-                    <ul class="list-group list-group-flush users-list">
-                        <li class="list-group-item">
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Jennica Kindred</h5>
-                                    <p>I know how important this file is to you. You can trust me ;)</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" class="dropdown-item">Remove favorites</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Marvin Rohan</h5>
-                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" class="dropdown-item">Remove favorites</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Frans Hanscombe</h5>
-                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" class="dropdown-item">Remove favorites</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Karl Hubane</h5>
-                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" class="dropdown-item">Remove favorites</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- ./ Stars sidebar -->
-
-            <!-- Archived sidebar -->
-            <div id="archived" class="sidebar">
-                <header>
-                    <span>Archived</span>
-                    <ul class="list-inline">
-                        <li class="list-inline-item d-xl-none d-inline">
-                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
-                                <i data-feather="x"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </header>
-                <form>
-                    <input type="text" class="form-control" placeholder="Search archived">
-                </form>
-                <div class="sidebar-body">
-                    <ul class="list-group list-group-flush users-list">
-                        <li class="list-group-item">
-                            <figure class="avatar">
-                                <span class="avatar-title bg-danger rounded-circle">M</span>
-                            </figure>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Mercedes Pllu</h5>
-                                    <p>I know how important this file is to you. You can trust me ;)</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" class="dropdown-item">Restore</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="list-group-item">
-                            <figure class="avatar">
-                                <span class="avatar-title bg-secondary rounded-circle">R</span>
-                            </figure>
-                            <div class="users-list-body">
-                                <div>
-                                    <h5>Rochelle Golley</h5>
-                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
-                                </div>
-                                <div class="users-list-action">
-                                    <div class="action-toggle">
-                                        <div class="dropdown">
-                                            <a data-toggle="dropdown" href="#">
-                                                <i data-feather="more-horizontal"></i>
-                                            </a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a href="#" class="dropdown-item">Open</a>
-                                                <a href="#" class="dropdown-item">Restore</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a href="#" class="dropdown-item text-danger">Delete</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- ./ Archived sidebar -->
-
-        </div>
-        <!-- ./ sidebar group -->
-
-        <!-- chat -->
-        <div class="chat">
-            <div class="chat-header">
-                <div class="chat-header-user">
-                    <figure class="avatar">
-                        <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                    </figure>
-                    <div>
-                        <h5>Byrom Guittet</h5>
-                        <small class="text-success">
-                            <i>writing...</i>
-                        </small>
-                    </div>
-                </div>
-                <div class="chat-header-action">
-                    <ul class="list-inline">
-                        <li class="list-inline-item d-xl-none d-inline">
-                            <a href="#" class="btn btn-outline-light mobile-navigation-button">
-                                <i data-feather="menu"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item" data-toggle="tooltip" title="Voice call">
-                            <a href="#" class="btn btn-outline-light text-success" data-toggle="modal"
-                               data-target="#call">
-                                <i data-feather="phone"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item" data-toggle="tooltip" title="Video call">
-                            <a href="#" class="btn btn-outline-light text-warning" data-toggle="modal"
-                               data-target="#videoCall">
-                                <i data-feather="video"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class="btn btn-outline-light" data-toggle="dropdown">
-                                <i data-feather="more-horizontal"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a href="#" data-navigation-target="contact-information"
-                                   class="dropdown-item">Profile</a>
-                                <a href="#" class="dropdown-item">Add to archive</a>
-                                <a href="#" class="dropdown-item">Delete</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#" class="dropdown-item text-danger">Block</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="chat-body"> <!-- .no-message -->
-                <!--
-                <div class="no-message-container">
-                    <div class="row mb-5">
-                        <div class="col-md-4 offset-4">
-                            <img src="./dist/media/svg/undraw_empty_xct9.svg" class="img-fluid" alt="image">
-                        </div>
-                    </div>
-                    <p class="lead">Select a chat to read messages</p>
-                </div>
-                -->
-                <div class="messages">
-                    <div class="message-item outgoing-message">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Mirabelle Tow</h5>
-                                <div class="time">01:20 PM <i class="ti-double-check text-info"></i></div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            Hello how are you?
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">01:35 PM</div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            I'm fine, how are you 😃
-                        </div>
-                    </div>
-                    <div class="message-item outgoing-message">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Mirabelle Tow</h5>
-                                <div class="time">05:31 PM <i class="ti-double-check text-info"></i></div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            I'm fine thank you. I expect you to send me some files.
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">10:12 PM</div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            What files are you talking about? I'm sorry I can't remember right now.
-                        </div>
-                    </div>
-                    <div class="message-item outgoing-message">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Mirabelle Tow</h5>
-                                <div class="time">11:56 PM <i class="ti-double-check text-info"></i></div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            I want those files for you. I want you to send 1 PDF and 1 image file.
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">11:59 PM</div>
-                            </div>
-                        </div>
-                        <div class="message-content message-file">
-                            <div class="file-icon">
-                                <i class="fa fa-file-pdf-o"></i>
-                            </div>
-                            <div>
-                                <div>important_documents.pdf <i class="text-muted small">(50KB)</i></div>
-                                <ul class="list-inline">
-                                    <li class="list-inline-item mb-0"><a href="#">Download</a></li>
-                                    <li class="list-inline-item mb-0"><a href="#">View</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="message-item messages-divider sticky-top" data-label="Today"></div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">07:15 AM</div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            I'm about to send the other file now.
-                        </div>
-                    </div>
-                    <div class="message-item outgoing-message">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Mirabelle Tow</h5>
-                                <div class="time">07:45 AM <i class="ti-double-check text-info"></i></div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            Thank you so much. These files are very important to me. I guess you didn't make any changes
-                            to these files. So I need the original versions of these files. Thank you very much again.
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">08:00 AM</div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            I thank you. We are glad to help you. 😃
-                        </div>
-                    </div>
-                    <div class="message-item outgoing-message">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Mirabelle Tow</h5>
-                                <div class="time">09:23 AM <i class="ti-double-check text-info"></i></div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            😃 😃 ❤ ❤
-                        </div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">10:43 AM</div>
-                            </div>
-                        </div>
-                        <figure>
-                            <img src="dist/media/img/image1.jpg" class="w-25 img-fluid rounded" alt="image">
-                        </figure>
-                    </div>
-                    <div class="message-item outgoing-message">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Mirabelle Tow</h5>
-                                <div class="time">10:50 AM <i class="ti-double-check text-info"></i></div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            You are good ❤❤
-                        </div>
-                    </div>
-                    <div class="message-item messages-divider" data-label="1 message unread"></div>
-                    <div class="message-item">
-                        <div class="message-avatar">
-                            <figure class="avatar">
-                                <img src="./dist/media/img/man_avatar3.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <div>
-                                <h5>Byrom Guittet</h5>
-                                <div class="time">11:05 AM</div>
-                            </div>
-                        </div>
-                        <div class="message-content">
-                            I sent you all the files. Good luck with 😃
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="chat-footer">
-                <form>
-                    <div>
-                        <button class="btn btn-light mr-3" data-toggle="tooltip" title="Emoji" type="button">
-                            <i data-feather="smile"></i>
-                        </button>
-                    </div>
-                    <input type="text" class="form-control" placeholder="Write a message.">
-                    <div class="form-buttons">
-                        <button class="btn btn-light" data-toggle="tooltip" title="Add files" type="button">
-                            <i data-feather="paperclip"></i>
-                        </button>
-                        <button class="btn btn-light d-sm-none d-block" data-toggle="tooltip"
-                                title="Send a voice record" type="button">
-                            <i data-feather="mic"></i>
-                        </button>
-                        <button class="btn btn-primary" type="submit">
-                            <i data-feather="send"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <!-- ./ chat -->
-
-        <div class="sidebar-group">
-            <div id="contact-information" class="sidebar">
-                <header>
-                    <span>Profile</span>
-                    <ul class="list-inline">
-                        <li class="list-inline-item">
-                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
-                                <i data-feather="x"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </header>
-                <div class="sidebar-body">
-                    <div class="pl-4 pr-4">
-                        <div class="text-center">
-                            <figure class="avatar avatar-xl mb-4">
-                                <img src="./dist/media/img/women_avatar5.jpg" class="rounded-circle" alt="image">
-                            </figure>
-                            <h5 class="mb-1">Mirabelle Tow</h5>
-                            <small class="text-muted font-italic">Last seen: Today</small>
-
-                            <ul class="nav nav-tabs justify-content-center mt-5" id="myTab" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
-                                       aria-controls="home" aria-selected="true">About</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                                       aria-controls="profile" aria-selected="false">Media</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                <p class="text-muted">Lorem ipsum is a pseudo-Latin text used in web design, typography,
-                                    layout, and printing in place of English to emphasise design elements over content.
-                                    It's also called placeholder (or filler) text. It's a convenient tool for
-                                    mock-ups.</p>
-                                <div class="mt-4 mb-4">
-                                    <h6>Phone</h6>
-                                    <p class="text-muted">(555) 555 55 55</p>
-                                </div>
-                                <div class="mt-4 mb-4">
-                                    <h6>City</h6>
-                                    <p class="text-muted">Germany / Berlin</p>
-                                </div>
-                                <div class="mt-4 mb-4">
-                                    <h6>Website</h6>
-                                    <p>
-                                        <a href="#">www.franshanscombe.com</a>
-                                    </p>
-                                </div>
-                                <div class="mt-4 mb-4">
-                                    <h6 class="mb-3">Social media accounts</h6>
-                                    <ul class="list-inline social-links">
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-facebook"
-                                               data-toggle="tooltip" title="Facebook">
-                                                <i class="fa fa-facebook"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-twitter"
-                                               data-toggle="tooltip" title="Twitter">
-                                                <i class="fa fa-twitter"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-dribbble"
-                                               data-toggle="tooltip" title="Dribbble">
-                                                <i class="fa fa-dribbble"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-whatsapp"
-                                               data-toggle="tooltip" title="Whatsapp">
-                                                <i class="fa fa-whatsapp"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-linkedin"
-                                               data-toggle="tooltip" title="Linkedin">
-                                                <i class="fa fa-linkedin"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-google" data-toggle="tooltip"
-                                               title="Google">
-                                                <i class="fa fa-google"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-behance"
-                                               data-toggle="tooltip" title="Behance">
-                                                <i class="fa fa-behance"></i>
-                                            </a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href="#" class="btn btn-sm btn-floating btn-instagram"
-                                               data-toggle="tooltip" title="Instagram">
-                                                <i class="fa fa-instagram"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="mt-4 mb-4">
-                                    <h6 class="mb-3">Settings</h6>
-                                    <div class="form-group">
-                                        <div class="form-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch11">
-                                            <label class="custom-control-label" for="customSwitch11">Block</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="form-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" checked=""
-                                                   id="customSwitch12">
-                                            <label class="custom-control-label" for="customSwitch12">Mute</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="form-item custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input" id="customSwitch13">
-                                            <label class="custom-control-label" for="customSwitch13">Get
-                                                notification</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <h6 class="mb-3 d-flex align-items-center justify-content-between">
-                                    <span>Recent Files</span>
-                                    <a href="#" class="btn btn-link small">
-                                        <i data-feather="upload" class="mr-2"></i> Upload
-                                    </a>
-                                </h6>
-                                <div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
-                                            <a href="#">
-                                                <i class="fa fa-file-pdf-o text-danger mr-2"></i> report4221.pdf
-                                            </a>
-                                        </li>
-                                        <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
-                                            <a href="#">
-                                                <i class="fa fa-image text-muted mr-2"></i> avatar_image.png
-                                            </a>
-                                        </li>
-                                        <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
-                                            <a href="#">
-                                                <i class="fa fa-file-excel-o text-success mr-2"></i>
-                                                excel_report_file2020.xlsx
-                                            </a>
-                                        </li>
-                                        <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
-                                            <a href="#">
-                                                <i class="fa fa-file-text-o text-warning mr-2"></i> articles342133.txt
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-    <!-- ./ content -->
-
-</div>
-<!-- ./ layout -->
-
-<!-- Bundle -->
-<script src="https://www.jq22.com/jquery/jquery-3.3.1.js"></script>
-<script src="./vendor/bundle.js"></script>
-<script src="./vendor/feather.min.js"></script>
-<script src="./vendor/enjoyhint/enjoyhint.min.js"></script>
-
-<!-- App scripts -->
-<script src="./dist/js/app.min.js"></script>
-
-<!-- Examples -->
-<script src="./dist/js/examples.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>Apricot v 1.3</title><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="description" content=""><meta name="author" content=""><!-- Le styles --><link rel="stylesheet" href="assets/css/style.css"><link rel="stylesheet" href="assets/css/loader-style.css"><link rel="stylesheet" href="assets/css/bootstrap.css"><link rel="stylesheet" type="text/css"	href="assets/js/progress-bar/number-pb.css"><style type="text/css">canvas#canvas4 {	position: relative;	top: 20px;}</style><!-- HTML5 shim, for IE6-8 support of HTML5 elements --><!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]--><!-- Fav and touch icons --><link rel="shortcut icon" href="assets/ico/minus.png"></head><body>	<!-- Preloader -->	<div id="preloader">		<div id="status">&nbsp;</div>	</div>	<!-- TOP NAVBAR -->	<nav role="navigation" class="navbar navbar-static-top">		<div class="container-fluid">			<!-- Brand and toggle get grouped for better mobile display -->			<div class="navbar-header">				<button data-target="#bs-example-navbar-collapse-1"					data-toggle="collapse" class="navbar-toggle" type="button">					<span class="entypo-menu"></span>				</button>				<button class="navbar-toggle toggle-menu-mobile toggle-left"					type="button">					<span class="entypo-list-add"></span>				</button>				<div id="logo-mobile" class="visible-xs">					<h1>						WEB管理<span>v1.2</span>					</h1>				</div>			</div>			<!-- Collect the nav links, forms, and other content for toggling -->			<div id="bs-example-navbar-collapse-1"				class="collapse navbar-collapse">				<ul class="nav navbar-nav">					<li class="dropdown"><a data-toggle="dropdown"						class="dropdown-toggle" href="#"><i style="font-size: 20px;"							class="icon-conversation"></i>						<div class="noft-red">23</div></a>						<ul style="margin: 11px 0 0 9px;" role="menu"							class="dropdown-menu dropdown-wrap">							<li><a href="#"> <img alt="" class="img-msg img-circle"									src="http://api.randomuser.me/portraits/thumb/men/1.jpg">Jhon									Doe <b>Just Now</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <img alt="" class="img-msg img-circle"									src="http://api.randomuser.me/portraits/thumb/women/1.jpg">Jeniffer									<b>3 Min Ago</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <img alt="" class="img-msg img-circle"									src="http://api.randomuser.me/portraits/thumb/men/2.jpg">Dave									<b>2 Hours Ago</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <img alt="" class="img-msg img-circle"									src="http://api.randomuser.me/portraits/thumb/men/3.jpg"><i>Keanu</i>									<b>1 Day Ago</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <img alt="" class="img-msg img-circle"									src="http://api.randomuser.me/portraits/thumb/men/4.jpg"><i>Masashi</i>									<b>2 Mounth Ago</b>							</a></li>							<li class="divider"></li>							<li>								<div>See All Messege</div>							</li>						</ul></li>					<li><a data-toggle="dropdown" class="dropdown-toggle" href="#"><i							style="font-size: 19px;" class="icon-warning tooltitle"></i>						<div class="noft-green">5</div></a>						<ul style="margin: 12px 0 0 0;" role="menu"							class="dropdown-menu dropdown-wrap">							<li><a href="#"> <span style="background: #DF2135"									class="noft-icon maki-bus"></span><i>From Station</i> <b>01B</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <span style="background: #AB6DB0"									class="noft-icon maki-ferry"></span><i>Departing at</i> <b>9:00										AM</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <span style="background: #FFA200"									class="noft-icon maki-aboveground-rail"></span><i>Delay for</i>									<b>09 Min</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <span style="background: #86C440"									class="noft-icon maki-airport"></span><i>Take of</i> <b>08:30										AM</b>							</a></li>							<li class="divider"></li>							<li><a href="#"> <span style="background: #0DB8DF"									class="noft-icon maki-bicycle"></span><i>Take of</i> <b>08:30										AM</b>							</a></li>							<li class="divider"></li>							<li>								<div>See All Notification</div>							</li>						</ul></li>					<li><a href="#"><i data-toggle="tooltip"							data-placement="bottom" title="Help" style="font-size: 20px;"							class="icon-help tooltitle"></i></a></li>				</ul>				<div id="nt-title-container"					class="navbar-left running-text visible-lg">					<ul class="date-top">						<li class="entypo-calendar" style="margin-right: 5px"></li>						<li id="Date"></li>					</ul>					<ul id="digital-clock" class="digital">						<li class="entypo-clock" style="margin-right: 5px"></li>						<li class="hour"></li>						<li>:</li>						<li class="min"></li>						<li>:</li>						<li class="sec"></li>						<li class="meridiem"></li>					</ul>					<ul id="nt-title">						<li><i class="wi-day-lightning"></i>&#160;&#160;Berlin&#160;							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>						<li><i class="wi-day-lightning"></i>&#160;&#160;Yogyakarta&#160;							<b>85</b><i class="wi-fahrenheit"></i>&#160;; Tonight- 72 °F							(22.2 °C)</li>						<li><i class="wi-day-lightning"></i>&#160;&#160;Sttugart&#160;							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>						<li><i class="wi-day-lightning"></i>&#160;&#160;Muchen&#160;							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>						<li><i class="wi-day-lightning"></i>&#160;&#160;Frankurt&#160;							<b>85</b><i class="wi-fahrenheit"></i>&#160;; 15km/h</li>					</ul>				</div>				<ul style="margin-right: 0;" class="nav navbar-nav navbar-right">					<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">							<img alt="" class="admin-pic img-circle"							src="http://api.randomuser.me/portraits/thumb/men/10.jpg">Hi,Mr Hu<b class="caret"></b>					</a>						<ul style="margin-top: 14px;" role="menu"							class="dropdown-setting dropdown-menu">							<li><a href="#"> <span class="entypo-vcard"></span>&#160;&#160;Account									Setting							</a></li>							<li class="divider"></li>							<li><a								href="/logout" >									<span class="entypo-logout"></span>&#160;&#160; Logout							</a></li>						</ul></li>					<li><a data-toggle="dropdown" class="dropdown-toggle" href="#">							<span class="icon-gear"></span>&#160;&#160;Setting					</a>						<ul role="menu" class="dropdown-setting dropdown-menu">							<li class="theme-bg">								<div id="button-bg"></div>								<div id="button-bg2"></div>								<div id="button-bg3"></div>								<div id="button-bg5"></div>								<div id="button-bg6"></div>								<div id="button-bg7"></div>								<div id="button-bg8"></div>								<div id="button-bg9"></div>								<div id="button-bg10"></div>								<div id="button-bg11"></div>								<div id="button-bg12"></div>								<div id="button-bg13"></div>							</li>						</ul></li>					<li class="hidden-xs"><a class="toggle-left" href="#"> <span							style="font-size: 20px;" class="entypo-list-add"></span>					</a></li>				</ul>			</div>			<!-- /.navbar-collapse -->		</div>		<!-- /.container-fluid -->	</nav>	<!-- /END OF TOP NAVBAR -->	<!-- SIDE MENU -->	<div id="skin-select">		<div id="logo">			<h1>				CloudSoft<span>v1.2</span>			</h1>		</div>		<a id="toggle"> <span class="entypo-menu"></span>		</a>		<div class="dark">			<form action="#">				<span> <input type="text" name="search" value=""					class="search rounded id_search" placeholder="Search Menu..."					autofocus="">				</span>			</form>		</div>		<div class="search-hover">			<form id="demo-2">				<input type="search" placeholder="Search Menu..." class="id_search">			</form>		</div>		<div class="skin-part">			<div id="tree-wrap">				<div class="side-bar">					<ul class="topnav menu-left-nest">						<li><a href="#" style="border-left: 0px solid !important;"							class="title-menu-left"> <span class="widget-menu"></span> <i								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>						</a></li>						<li><a class="tooltip-tip ajax-load" href="#"							title="Blog App"> <i class="icon-document-edit"></i> <span>Blog									App</span>						</a>							<ul>								<li><a class="tooltip-tip2 ajax-load" href="blog-list.html"									title="Blog List"><i class="entypo-doc-text"></i><span>Blog											List</span></a></li>								<li><a class="tooltip-tip2 ajax-load"									href="blog-detail.html" title="Blog Detail"><i										class="entypo-newspaper"></i><span>Blog Details</span></a></li>							</ul></li>						<li><a class="tooltip-tip ajax-load" href="social.html"							title="Social"> <i class="icon-feed"></i> <span>Social</span>						</a></li>						<li><a class="tooltip-tip ajax-load" href="media.html"							title="Media"> <i class="icon-camera"></i> <span>Media</span>						</a></li>					</ul>					<ul class="topnav menu-left-nest">						<li><a href="#" style="border-left: 0px solid !important;"							class="title-menu-left"> <span class="design-kit"></span> <i								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>						</a></li>						<li><a class="tooltip-tip ajax-load" href="index.html"							title="Dashboard"> <i class="icon-window"></i> <span>Dashboard</span>						</a></li>						<li><a class="tooltip-tip ajax-load" href="mail.html"							title="Mail"> <i class="icon-mail"></i> <span>mail</span>								<div class="noft-blue">289</div>						</a></li>						<li><a class="tooltip-tip ajax-load" href="icon.html"							title="Icons"> <i class="icon-preview"></i> <span>Icons</span>								<div class="noft-blue"									style="display: inline-block; float: none;">New</div>						</a></li>						<li><a class="tooltip-tip" href="#" title="Extra Pages">								<i class="icon-document-new"></i> <span>Extra Page</span>						</a>							<ul>								<li><a class="tooltip-tip2 ajax-load"									href="blank_page.html" title="Blank Page"><i										class="icon-media-record"></i><span>Blank Page</span></a></li>								<li><a class="tooltip-tip2 ajax-load" href="profile.html"									title="Profile Page"><i class="icon-user"></i><span>Profile											Page</span></a></li>								<li><a class="tooltip-tip2 ajax-load" href="invoice.html"									title="Invoice"><i class="entypo-newspaper"></i><span>Invoice</span></a>								</li>								<li><a class="tooltip-tip2 ajax-load"									href="pricing_table.html" title="Pricing Table"><i										class="fontawesome-money"></i><span>Pricing Table</span></a></li>								<li><a class="tooltip-tip2 ajax-load" href="time-line.html"									title="Time Line"><i class="entypo-clock"></i><span>Time											Line</span></a></li>								<li><a class="tooltip-tip2" href="404.html"									title="404 Error Page"><i class="icon-thumbs-down"></i><span>404											Error Page</span></a></li>								<li><a class="tooltip-tip2" href="500.html"									title="500 Error Page"><i class="icon-thumbs-down"></i><span>500											Error Page</span></a></li>								<li><a class="tooltip-tip2" href="lock-screen.html"									title="Lock Screen"><i class="icon-lock"></i><span>Lock											Screen</span></a></li>							</ul></li>						<li><a class="tooltip-tip " href="login.html" title="login">								<i class="icon-download"></i> <span>Login</span>						</a></li>					</ul>					<ul id="menu-showhide" class="topnav menu-left-nest">						<li><a href="#" style="border-left: 0px solid !important;"							class="title-menu-left"> <span class="component"></span> <i								data-toggle="tooltip" class="entypo-cog pull-right config-wrap"></i>						</a></li>						<li><a class="tooltip-tip" href="#" title="UI Element"> <i								class="icon-monitor"></i> <span>UI Element</span>						</a>							<ul>								<li><a class="tooltip-tip2 ajax-load" href="element.html"									title="Element"><i class="icon-attachment"></i><span>Element</span></a>								</li>								<li><a class="tooltip-tip2 ajax-load" href="button.html"									title="Button"><i class="icon-view-list-large"></i><span>Button</span>										<div class="noft-blue-number">10</div></a></li>								<li><a class="tooltip-tip2 ajax-load" href="wizard.html"									title="Tab & Accordion"><i class="icon-folder"></i><span>Wizard</span>									<div class="noft-purple-number">3</div></a></li>								<li><a class="tooltip-tip2 ajax-load" href="calendar.html"									title="Calender"><i class="icon-calendar"></i><span>Calendar</span></a>								</li>								<li><a class="tooltip-tip2 ajax-load" href="tree.html"									title="Tree View"><i class="icon-view-list"></i><span>Tree											View</span></a></li>								<li><a class="tooltip-tip2 ajax-load" href="grids.html"									title="Grids"><i class="icon-menu"></i><span>Grids</span></a></li>								<li><a class="tooltip-tip2 ajax-load" href="chart.html"									title="Chart"><i class="icon-graph-pie"></i><span>Chart</span></a>								</li>								<li><a class="tooltip-tip ajax-load"									href="typhography.html" title="Typhoghrapy"> <i										class="icon-information"></i> <span>Typhoghrapy</span>								</a></li>							</ul></li>						<li><a class="tooltip-tip" href="#" title="Form"> <i								class="icon-document"></i> <span>Form</span>						</a>							<ul>								<li><a class="tooltip-tip2 ajax-load"									href="form-element.html" title="Form Elements"><i										class="icon-document-edit"></i><span>Form Elements</span></a></li>								<li><a class="tooltip-tip2 ajax-load"									href="andvance-form.html" title="Andvance Form"><i										class="icon-map"></i><span>Andvance Form</span></a></li>								<li><a class="tooltip-tip2 ajax-load"									href="text-editor.html" title="Text Editor"><i										class="icon-code"></i><span>Text Editor</span></a></li>								<li><a class="tooltip-tip2 ajax-load"									href="file-upload.html" title="File Upload"><i										class="icon-upload"></i><span>File Upload</span></a></li>							</ul></li>						<li><a class="tooltip-tip" href="#" title="Tables"> <i								class="icon-view-thumb"></i> <span>Tables</span>						</a>							<ul>								<li><a class="tooltip-tip2 ajax-load"									href="table-static.html" title="Table Static"><i										class="entypo-layout"></i><span>Table Static</span></a></li>								<li><a class="tooltip-tip2 ajax-load"									href="table-dynamic.html" title="Table Dynamic"><i										class="entypo-menu"></i><span>Table Dynamic</span></a></li>							</ul></li>						<li><a class="tooltip-tip ajax-load" href="map.html"							title="Map"> <i class="icon-location"></i> <span>Map</span>						</a></li>					</ul>					<div class="side-dash">						<h3>							<span>Device</span>						</h3>						<ul class="side-dashh-list">							<li>Avg. Traffic <span>25k<i style="color: #44BBC1;"									class="fa fa-arrow-circle-up"></i>							</span>							</li>							<li>Visitors <span>80%<i style="color: #AB6DB0;"									class="fa fa-arrow-circle-down"></i>							</span>							</li>							<li>Convertion Rate <span>13m<i									style="color: #19A1F9;" class="fa fa-arrow-circle-up"></i>							</span>							</li>						</ul>						<h3>							<span>Traffic</span>						</h3>						<ul class="side-bar-list">							<li>Avg. Traffic								<div class="linebar">5,7,8,9,3,5,3,8,5</div>							</li>							<li>Visitors								<div class="linebar2">9,7,8,9,5,9,6,8,7</div>							</li>							<li>Convertion Rate								<div class="linebar3">5,7,8,9,3,5,3,8,5</div>							</li>						</ul>						<h3>							<span>Visitors</span>						</h3>						<div id="g1" style="height: 180px" class="gauge"></div>					</div>				</div>			</div>		</div>	</div>	<!-- END OF SIDE MENU -->	<!--  PAPER WRAP -->	<div class="wrap-fluid">		<div class="container-fluid paper-wrap bevel tlbr">			<!-- CONTENT -->			<!--TITLE -->			<div class="row">				<div id="paper-top">					<div class="col-lg-3">						<h2 class="tittle-content-header">							<i class="icon-window"></i> <span>Dashboard </span>						</h2>					</div>					<div class="col-lg-7">						<div class="devider-vertical visible-lg"></div>						<div class="tittle-middle-header">							<div class="alert">								<button type="button" class="close" data-dismiss="alert">×</button>								<span class="tittle-alert entypo-info-circled"></span> Welcome								back,&nbsp; <strong>Dave mattew!</strong>&nbsp;&nbsp;Your last								sig in at Yesterday, 16:54 PM							</div>						</div>					</div>					<div class="col-lg-2">						<div class="devider-vertical visible-lg"></div>						<div class="btn-group btn-wigdet pull-right visible-lg">							<div class="btn">Widget</div>							<button data-toggle="dropdown" class="btn dropdown-toggle"								type="button">								<span class="caret"></span> <span class="sr-only">Toggle									Dropdown</span>							</button>							<ul role="menu" class="dropdown-menu">								<li><a href="#"> <span										class="entypo-plus-circled margin-iconic"></span>Add New								</a></li>								<li><a href="#"> <span										class="entypo-heart margin-iconic"></span>Favorite								</a></li>								<li><a href="#"> <span class="entypo-cog margin-iconic"></span>Setting								</a></li>							</ul>						</div>					</div>				</div>			</div>			<!--/ TITLE -->			<!-- BREADCRUMB -->			<ul id="breadcrumb">				<li><span class="entypo-home"></span></li>				<li><i class="fa fa-lg fa-angle-right"></i></li>				<li><a href="#" title="Sample page 1">Home</a></li>				<li><i class="fa fa-lg fa-angle-right"></i></li>				<li><a href="#" title="Sample page 1">Dashboard</a></li>				<li class="pull-right">					<div class="input-group input-widget">						<input style="border-radius: 15px" type="text"							placeholder="Search..." class="form-control">					</div>				</li>			</ul>			<!-- END OF BREADCRUMB -->			<div id="paper-middle">				<div id="mapContainer"></div>			</div>			<!--  DEVICE MANAGER -->			<div class="content-wrap">				<div class="row">					<div class="col-lg-3">						<div class="profit" id="profitClose">							<div class="headline ">								<h3>									<span> <i class="maki-ferry"></i>&#160;&#160;Ferry										Arrival									</span>								</h3>								<div class="titleClose">									<a href="#profitClose" class="gone"> <span										class="entypo-cancel"></span>									</a>								</div>							</div>							<div class="value">								<span class="pull-left"><i									class="entypo-clock clock-position"></i> </span>								<div id="getting-started">									<span>%M</span> <span>%S</span>								</div>							</div>							<div class="progress-tinny">								<div style="width: 50%" class="bar"></div>							</div>							<div class="profit-line">								<i class="fa fa-caret-up fa-lg"></i>&#160;&#160; 50% &#160;From								Last Hour							</div>						</div>					</div>					<div class="col-lg-3">						<div class="revenue" id="revenueClose">							<div class="headline ">								<h3>									<span> <i class="maki-aboveground-rail"></i>&#160;&#160;Train										Speed									</span>								</h3>								<div class="titleClose">									<a href="#revenueClose" class="gone"> <span										class="entypo-cancel"></span>									</a>								</div>							</div>							<div class="value">								<span class="pull-left"><i									class="entypo-gauge gauge-position"></i> </span>								<canvas id="canvas4" width="70" height="70"></canvas>								<i class="pull-right">/Km</i>							</div>							<div class="progress-tinny">								<div style="width: 25%" class="bar"></div>							</div>							<div class="profit-line">								<i class="fa fa-caret-down fa-lg"></i>&#160;&#160;Rate : 20								km/Hour							</div>						</div>					</div>					<div class="col-lg-3">						<div class="order" id="orderClose">							<div class="headline ">								<h3>									<span> <i class="maki-airport"></i>&#160;&#160;AIR PORT										TRAFFIC									</span>								</h3>								<div class="titleClose">									<a href="#orderClose" class="gone"> <span										class="entypo-cancel"></span>									</a>								</div>							</div>							<div class="value">								<span><i class="fa fa-plane fa-2x"></i> </span><b id="speed"></b><b>Take									Off</b>							</div>							<div class="progress-tinny">								<div style="width: 10%" class="bar"></div>							</div>							<div class="profit-line">								<i class="fa fa-caret-down fa-lg"></i>&#160;&#160;Rate : 20								Plane/Hour							</div>						</div>					</div>					<div class="col-lg-3">						<div class=" member" id="memberClose">							<div class="headline ">								<h3>									<span> <i class="fa fa-truck"></i> &#160;&#160;CARGO									</span>								</h3>								<div class="titleClose">									<a href="#memberClose" class="gone"> <span										class="entypo-cancel"></span>									</a>								</div>							</div>							<div class="value">								<span><i class="maki-warehouse"></i> </span>45<b>Sent</b>							</div>							<div class="progress-tinny">								<div style="width: 50%" class="bar"></div>							</div>							<div class="profit-line">								<span class="entypo-down-circled"></span>&#160;50% From Last								Month							</div>						</div>					</div>				</div>			</div>			<!--  / DEVICE MANAGER -->			<div class="content-wrap">				<div class="row">					<div class="col-lg-8">						<div id="siteClose" class="nest">							<div class="title-alt">								<h6>									<span class="fontawesome-truck"></span>&nbsp;Destination								</h6>								<div class="titleClose">									<a class="gone" href="#siteClose"> <span										class="entypo-cancel"></span>									</a>								</div>								<div class="titleToggle">									<a class="nav-toggle-alt" href="#site"> <span										class="entypo-up-open"></span>									</a>								</div>							</div>							<div id="site" class="body-nest" style="min-height: 296px;">								<div class="table-responsive">									<table class="table">										<thead>											<tr>												<th></th>												<th></th>												<th></th>											</tr>										</thead>										<tbody>											<tr>												<td class="armada-devider">													<div class="armada">														<span style="background: #65C3DF"> <span															class="maki-bus"></span>&nbsp;&nbsp;Trans Berlin														</span>														<p>															<span class="entypo-gauge"></span>&nbsp;12 Km/<i>Hours</i>														</p>													</div>												</td>												<td class="driver-devider"><img													class="armada-pic img-circle" alt=""													src="http://api.randomuser.me/portraits/thumb/men/14.jpg">													<h3>Mark Zukenbeirg</h3> <br>													<p>Driver</p></td>												<td class="progress-devider">													<section id="basic">														<article>															<div class="number-pb">																<div class="number-pb-shown"></div>																<div class="number-pb-num">0</div>															</div>														</article>													</section> <span class="label pull-left">Berlin</span> <span													class="label pull-right">Muchen</span>												</td>											</tr>											<tr>												<td class="armada-devider">													<div class="armada">														<span style="background: #45B6B0"> <span															class="fontawesome-plane"></span>&nbsp;&nbsp;Fly Airlines														</span>														<p>															<span class="entypo-gauge"></span>&nbsp;600 Km/<i>Hours</i>														</p>													</div>												</td>												<td class="driver-devider"><img													class="armada-pic img-circle" alt=""													src="http://api.randomuser.me/portraits/thumb/men/38.jpg">													<h3>Marko Freytag</h3> <br>													<p>Pilot</p></td>												<td class="progress-devider">													<section id="percentage">														<article>															<div class="number-pb">																<div class="number-pb-shown dream"></div>																<div class="number-pb-num">0%</div>															</div>														</article>													</section> <span class="label pull-left">Berlin</span> <span													class="label pull-right">London</span>												</td>											</tr>											<tr>												<td class="armada-devider">													<div class="armada">														<span style="background: #FF6B6B"> <span															class="maki-aboveground-rail"></span>&nbsp;&nbsp;Fazttrain														</span>														<p>															<span class="entypo-gauge"></span>&nbsp;40 Km/<i>Hours</i>														</p>													</div>												</td>												<td class="driver-devider"><img													class="armada-pic img-circle" alt=""													src="http://api.randomuser.me/portraits/thumb/men/39.jpg">													<h3>Dieter Gruenewald</h3> <br>													<p>machinist</p></td>												<td class="progress-devider">													<section id="step">														<article>															<div class="number-pb">																<div class="number-pb-shown sun"></div>																<div class="number-pb-num">0/0</div>															</div>														</article>													</section> <span class="label pull-left">Berlin</span> <span													class="label pull-right">Dortmund</span>												</td>											</tr>										</tbody>									</table>								</div>							</div>						</div>					</div>					<div class="col-lg-4">						<div id="RealTimeClose" class="nest">							<div class="title-alt">								<h6>									<span class="fontawesome-resize-horizontal"></span>&nbsp;Direction								</h6>								<div class="titleClose">									<a class="gone" href="#RealTimeClose"> <span										class="entypo-cancel"></span>									</a>								</div>								<div class="titleToggle">									<a class="nav-toggle-alt" href="#RealTime"> <span										class="entypo-up-open"></span>									</a>								</div>							</div>							<div id="RealTime" style="min-height: 296px; padding-top: 20px;"								class="body-nest">								<ul class="direction">									<li><span class="direction-icon maki-fuel"										style="background: #FF6B6B"></span>										<h3>											<span>Gas Station</span>										</h3>										<p>											5 Km Foward&nbsp;&nbsp;<i class="fa fa-arrow-circle-up"></i>										</p>										<p>											<i>Estimated time </i>:&nbsp;<i class="fa fa-clock-o"></i>&nbsp;&nbsp;20											Min										</p></li>									<li class="divider"></li>									<li><span class="direction-icon maki-fast-food"										style="background: #65C3DF"></span>										<h3>											<span>Restourant</span>										</h3>										<p>											1 Km Turn Left&nbsp;&nbsp;<i class="fa fa-reply"></i>										</p>										<p>											<i>Estimated time </i>:&nbsp;<i class="fa fa-clock-o"></i>&nbsp;&nbsp;20											Min										</p></li>									<li class="divider"></li>									<li><span class="direction-icon maki-giraffe"										style="background: #45B6B0"></span>										<h3>											<span>Zoo</span>										</h3>										<p>											3 Km Turn Right &nbsp;&nbsp;<i class="fa fa-share"></i>										</p>										<p>											<i>Estimated time </i>:&nbsp;<i class="fa fa-clock-o"></i>&nbsp;&nbsp;20											Min										</p></li>									<li class="divider"></li>								</ul>							</div>						</div>					</div>				</div>			</div>			<div class="content-wrap">				<div class="row">					<div class="col-lg-6">						<div class="chart-wrap">							<div class="chart-dash">								<!-- <div id="sparkline"></div> -->								<div id="placeholder" style="width: 100%; height: 200px;"></div>							</div>							<div class="row">								<div class="col-lg-8">									<div class="speed">										<h2>Speed Avarage</h2>										<h1>											74 <span>Km / hours</span>										</h1>									</div>								</div>								<div class="col-lg-4">									<div class="traffic">										<h2>Traffic per day</h2>										<h1>2.5874</h1>									</div>								</div>							</div>							<div class="row">								<div class="col-lg-4">									<div class="traffic-rates">										<h4>Traffic Rates</h4>										<h1>											76 % <span>-1,2 %</span>										</h1>									</div>								</div>								<div class="col-lg-4">									<div class="traffic-rates">										<h4>Traffic Rates</h4>										<h1>											25 % <span>-1,8 %</span>										</h1>									</div>								</div>								<div class="col-lg-4">									<div class="traffic-rates">										<h4>Traffic Rates</h4>										<h1>											83 % <span>-1,9 %</span>										</h1>									</div>								</div>							</div>						</div>					</div>					<div class="col-lg-6">						<div class="weather-wrap">							<div class="row">								<div class="col-lg-12">									<div class="temperature">										<b>Monday</b>, 07:30 AM <span>F</span> <span><b>C</b> </span>									</div>								</div>							</div>							<div class="row">								<div class="col-lg-4">									<div class="weather-icon">										<i class="wi-day-lightning"></i>									</div>								</div>								<div class="col-lg-8">									<div class="weather-text">										<h2>											Berlin <br>											<i>Day Lightning</i>										</h2>									</div>								</div>							</div>							<div class="row">								<div class="col-lg-12">									<div class="weather-text">										<h3>											<i class="wi-thermometer"></i>18<i class="wi-celcius"></i>										</h3>									</div>								</div>							</div>							<div class="weather-dash">								<div class="row">									<div class="col-lg-2">										<div class="daily-weather">											<h2>Mon</h2>											<h3>												85 <span><i class="wi-fahrenheit"></i> </span>											</h3>											<h4>												<span><i class="wi-day-lightning"></i> </span>											</h4>											<h5>												15 <i>km/h</i>											</h5>										</div>									</div>									<div class="col-lg-2">										<div class="daily-weather">											<h2>Tue</h2>											<h3>												81 <span><i class="wi-fahrenheit"></i> </span>											</h3>											<h4>												<i class="wi-day-cloudy"></i>											</h4>											<h5>												12 <i>km/h</i>											</h5>										</div>									</div>									<div class="col-lg-2">										<div class="daily-weather">											<h2>Wed</h2>											<h3>												83 <span><i class="wi-fahrenheit"></i> </span>											</h3>											<h4>												<i class="wi-rain-mix"></i>											</h4>											<h5>												14 <i>km/h</i>											</h5>										</div>									</div>									<div class="col-lg-2">										<div class="daily-weather">											<h2>Thu</h2>											<h3>												80 <span><i class="wi-fahrenheit"></i> </span>											</h3>											<h4>												<i class="wi-day-sunny"></i>											</h4>											<h5>												15 <i>km/h</i>											</h5>										</div>									</div>									<div class="col-lg-2">										<div class="daily-weather">											<h2>Fri</h2>											<h3>												79 <span><i class="wi-fahrenheit"></i> </span>											</h3>											<h4>												<i class="wi-day-storm-showers"></i>											</h4>											<h5>												11 <i>km/h</i>											</h5>										</div>									</div>									<div class="col-lg-2">										<div class="daily-weather">											<h2>Sat</h2>											<h3>												82 <span><i class="wi-fahrenheit"></i> </span>											</h3>											<h4>												<i class="wi-cloudy"></i>											</h4>											<h5>												10 <i>km/h</i>											</h5>										</div>									</div>								</div>							</div>						</div>					</div>				</div>				<!-- /END OF CONTENT -->				<!-- FOOTER -->				<div class="footer-space"></div>				<div id="footer">					<div class="devider-footer-left"></div>					<div class="time">						<p id="spanDate">						<p id="clock">					</div>					<div class="copyright">						Make with Love <span class="entypo-heart"></span>2014 <a							href="http://themeforest.net/item/apricot-navigation-admin-dashboard-template/7664475?WT.ac=category_item&WT.z_author=themesmile">(Themesmile)							Purchase This Item</a> All Rights Reserved					</div>					<div class="devider-footer"></div>				</div>				<!-- / END OF FOOTER -->			</div>		</div>	</div>	<!--  END OF PAPER WRAP -->	<!-- RIGHT SLIDER CONTENT -->	<div class="sb-slidebar sb-right">		<div class="right-wrapper">			<div class="row">				<h3>					<span><i class="entypo-gauge"></i>&nbsp;&nbsp;MAIN WIDGET</span>				</h3>				<div class="col-lg-12">					<div class="widget-knob">						<span class="chart" style="position: relative" data-percent="86">							<span class="percent"></span>						</span>					</div>					<div class="widget-def">						<b>Distance traveled</b> <br> <i>86% to the check point</i>					</div>					<div class="widget-knob">						<span class="speed-car" style="position: relative"							data-percent="60"> <span class="percent2"></span>						</span>					</div>					<div class="widget-def">						<b>The average speed</b> <br> <i>30KM/h avarage speed</i>					</div>					<div class="widget-knob">						<span class="overall" style="position: relative" data-percent="25">							<span class="percent3"></span>						</span>					</div>					<div class="widget-def">						<b>Overall result</b> <br> <i>30KM/h avarage Result</i>					</div>				</div>			</div>		</div>		<div style="margin-top: 0;" class="right-wrapper">			<div class="row">				<h3>					<span><i class="entypo-chat"></i>&nbsp;&nbsp;CHAT</span>				</h3>				<div class="col-lg-12">					<span class="label label-warning label-chat">Online</span>					<ul class="chat">						<li><a href="#"> <span> <img alt=""									class="img-chat img-circle"									src="http://api.randomuser.me/portraits/thumb/men/20.jpg">							</span><b>Dave Junior</b> <br>							<i>Last seen : 08:00 PM</i>						</a></li>						<li><a href="#"> <span> <img alt=""									class="img-chat img-circle"									src="http://api.randomuser.me/portraits/thumb/men/21.jpg">							</span><b>Kenneth Lucas</b> <br>							<i>Last seen : 07:21 PM</i>						</a></li>						<li><a href="#"> <span> <img alt=""									class="img-chat img-circle"									src="http://api.randomuser.me/portraits/thumb/men/22.jpg">							</span><b>Heidi Perez</b> <br>							<i>Last seen : 05:43 PM</i>						</a></li>					</ul>					<span class="label label-chat">Offline</span>					<ul class="chat">						<li><a href="#"> <span> <img alt=""									class="img-chat img-offline img-circle"									src="http://api.randomuser.me/portraits/thumb/men/23.jpg">							</span><b>Dave Junior</b> <br>							<i>Last seen : 08:00 PM</i>						</a></li>						<li><a href="#"> <span> <img alt=""									class="img-chat img-offline img-circle"									src="http://api.randomuser.me/portraits/thumb/women/24.jpg">							</span><b>Kenneth Lucas</b> <br>							<i>Last seen : 07:21 PM</i>						</a></li>						<li><a href="#"> <span> <img alt=""									class="img-chat img-offline img-circle"									src="http://api.randomuser.me/portraits/thumb/men/25.jpg">							</span><b>Heidi Perez</b> <br>							<i>Last seen : 05:43 PM</i>						</a></li>						<li><a href="#"> <span> <img alt=""									class="img-chat img-offline img-circle"									src="http://api.randomuser.me/portraits/thumb/women/25.jpg">							</span><b>Kenneth Lucas</b> <br>							<i>Last seen : 07:21 PM</i>						</a></li>						<li><a href="#"> <span> <img alt=""									class="img-chat img-offline img-circle"									src="http://api.randomuser.me/portraits/thumb/men/26.jpg">							</span><b>Heidi Perez</b> <br>							<i>Last seen : 05:43 PM</i>						</a></li>					</ul>				</div>			</div>		</div>	</div>	<!-- END OF RIGHT SLIDER CONTENT-->	<script type="text/javascript" src="assets/js/jquery.js"></script>	<script src="assets/js/progress-bar/src/jquery.velocity.min.js"></script>	<script src="assets/js/progress-bar/number-pb.js"></script>	<script src="assets/js/progress-bar/progress-app.js"></script>	<!-- MAIN EFFECT -->	<script type="text/javascript" src="assets/js/preloader.js"></script>	<script type="text/javascript" src="assets/js/bootstrap.js"></script>	<script type="text/javascript" src="assets/js/app.js"></script>	<script type="text/javascript" src="assets/js/load.js"></script>	<script type="text/javascript" src="assets/js/main.js"></script>	<!-- GAGE -->	<script type="text/javascript" src="assets/js/chart/jquery.flot.js"></script>	<script type="text/javascript"		src="assets/js/chart/jquery.flot.resize.js"></script>	<script type="text/javascript" src="assets/js/chart/realTime.js"></script>	<script type="text/javascript"		src="assets/js/speed/canvasgauge-coustom.js"></script>	<script type="text/javascript"		src="assets/js/countdown/jquery.countdown.js"></script>	<script src="assets/js/jhere-custom.js"></script>	<script>		var gauge4 = new Gauge("canvas4", {			'mode' : 'needle',			'range' : {				'min' : 0,				'max' : 90			}		});		gauge4.draw(Math.floor(Math.random() * 90));		var run = setInterval(function() {			gauge4.draw(Math.floor(Math.random() * 90));		}, 3500);	</script>	<script type="text/javascript">		/* Javascript		 *		 * See http://jhere.net/docs.html for full documentation		 */		$(window).on('load', function() {			$('#mapContainer').jHERE({				center : [ 52.500556, 13.398889 ],				type : 'smart',				zoom : 10			}).jHERE('marker', [ 52.500556, 13.338889 ], {				icon : 'assets/img/marker.png',				anchor : {					x : 12,					y : 32				},				click : function() {					alert('Hallo from Berlin!');				}			})			.jHERE('route', [ 52.711, 13.011 ], [ 52.514, 13.453 ], {				color : '#FFA200',				marker : {					fill : '#86c440',					text : '#'				}			});		});	</script>	<script type="text/javascript">		var output, started, duration, desired;		// Constants		duration = 5000;		desired = '50';		// Initial setup		output = $('#speed');		started = new Date().getTime();		// Animate!		animationTimer = setInterval(function() {			// If the value is what we want, stop animating			// or if the duration has been exceeded, stop animating			if (output.text().trim() === desired					|| new Date().getTime() - started > duration) {				console.log('animating');				// Generate a random string to use for the next animation step				output.text('' + Math.floor(Math.random() * 60)				);			} else {				console.log('animating');				// Generate a random string to use for the next animation step				output.text('' + Math.floor(Math.random() * 120)				);			}		}, 5000);	</script>	<script type="text/javascript">		$('#getting-started').countdown(				'2015/01/01',				function(event) {					$(this).html(							event.strftime(							'<span>%M</span>'									+ '<span class="start-min">:</span>'									+ '<span class="start-min">%S</span>'));				});		function logout() {			$.ajax({				//请求方式				type : "POST",				//请求地址				url : "/logout",				//数据，json字符串				data : {},				//请求成功				success : function(result) {					location.href = "/_login_";				},				//请求失败，包含具体的错误信息				error : function(e) {					console.log(e.status);					console.log(e.responseText);				}			});		}	</script></body></html>

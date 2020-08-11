@@ -20,6 +20,9 @@ import org.redisson.config.Config;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
+import com.mry.redis.session.IRedissonSessionDao;
+import com.mry.redis.session.IRedissonWebSessionManager;
+
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;

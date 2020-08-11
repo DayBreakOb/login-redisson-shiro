@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Slek - Chat and Discussion Platform</title>
 
     <!-- Favicon -->
     <link rel="icon" href="./dist/media/img/favicon.png" type="image/png">
@@ -14,6 +13,12 @@
 
     <!-- App styles -->
     <link rel="stylesheet" href="./dist/css/app.min.css">
+
+    <script src="js/crypto/crypto-js.js"></script>
+    <script src="js/crypto/random/randompass.js"></script>
+    <link rel="stylesheet" href="assets/css/signin.css">
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+
 </head>
 <body class="form-membership">
 
@@ -60,13 +65,15 @@
     <h5>Sign in</h5>
 
     <!-- form -->
-    <form id="loginForm" method="post"  >
+    <form id="loginForm">
         <div class="form-group">
-            <input id="username" type="text" class="form-control" placeholder="Username or email" required="true"
+            <input id="username" name="username" type="text" class="form-control" placeholder="Username or email"
+                   required="true"
                    autofocus>
         </div>
         <div class="form-group">
-            <input type="password" id="password" class="form-control" placeholder="Password" required="true">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                   required="true">
         </div>
         <div class="form-group d-flex justify-content-between">
             <div class="custom-control custom-checkbox">
@@ -75,7 +82,7 @@
             </div>
             <a href="./reset-password.html">Reset password</a>
         </div>
-        <button class="btn btn-primary btn-block" type="submit" >Sign in</button>
+        <button class="btn btn-primary btn-block" type="button" onclick="tologin()">Sign in</button>
         <hr>
         <p class="text-muted">Login with your social media account.</p>
         <ul class="list-inline">
@@ -120,43 +127,84 @@
         <a href="./register.html" class="btn btn-outline-light btn-sm">Register now!</a>
     </form>
     <!-- ./ form -->
-
 </div>
 
 <!-- Bundle -->
-<script src="https://www.jq22.com/jquery/jquery-3.3.1.js"></script>
 <script src="./vendor/bundle.js"></script>
 <script src="./vendor/feather.min.js"></script>
-
 <!-- App scripts -->
 <script src="./dist/js/app.min.js"></script>
 <script type="text/javascript">
 
 
-    function  tologin() {
+    function tologin() {
 
-        alert("login ....");
         var username = $("#username").val();
-        var passwd = $("#passwd").val();
+        var passwd = $("#password").val();
+        username = getAES(username);
+        passwd = getAES(passwd);
         $.ajax({
             //请求方式
-            type : "POST",
+            type: "POST",
             //请求地址
-            url : "/tologin",
+            url: "/login",
             //数据，json字符串
-            data :{"username":username,"passwd":passwd},
+            data: {"username": username, "password": passwd},
             //请求成功
-            success : function(result) {
-                console.log(result);
-               // location.href="./index.html";
+            success: function (result) {
+                 location.href="/";
             },
             //请求失败，包含具体的错误信息
-            error : function(e){
+            error: function (e) {
                 console.log(e.status);
                 console.log(e.responseText);
             }
         });
     }
+
+
+    function getAesString(data, key, iv) {//加密
+        const key1 = CryptoJS.enc.Utf8.parse(key);
+        const iv1 = CryptoJS.enc.Utf8.parse(iv);
+        const encrypted = CryptoJS.AES.encrypt(data, key1,
+            {
+                iv: iv1,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        return encrypted.toString();    //返回的是base64格式的密文
+    }
+
+    function getDAesString(encrypted, key, iv) {//解密
+        const key2 = CryptoJS.enc.Utf8.parse(key);
+        const iv2 = CryptoJS.enc.Utf8.parse(iv);
+        const decrypted = CryptoJS.AES.decrypt(encrypted, key2,
+            {
+                iv: iv2,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+        return decrypted.toString(CryptoJS.enc.Utf8);
+    }
+
+    function getAES(data) { //加密
+        const key = '1DD:sOHHmCqB1111'; //密钥
+        const iv = '1234567812345678';
+        const encrypted = getAesString(data, key, iv); //密文
+        const encrypted1 = CryptoJS.enc.Utf8.parse(encrypted);
+        return encrypted;
+    }
+
+    function getDAes(data) {//解密
+        const key = '1DD:sOHHmCqB1111';  //密钥
+        const iv =  '1234567812345678';
+        const decryptedStr = getDAesString(data, key, iv);
+        return decryptedStr;
+    }
+
+
 </script>
+
+<footer>common.html</footer>
 </body>
 </html>
