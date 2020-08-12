@@ -1,6 +1,7 @@
 package com.mry.shrio.filter;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -40,7 +41,7 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 	 * auth to the login page ;to the defaultPath(first page)
 	 */
 	public static void redirectToDefaultPage(ServletRequest request, ServletResponse response) {
-		String loginUrl = PropertyUtil.getProperty("shiro.defaultPath","_login_");
+		String loginUrl = PropertyUtil.getProperty("shiro.defaultPath", "_login_");
 		HttpServletRequest req = (HttpServletRequest) request;
 		if (StringUtils.equals(req.getContextPath() + loginUrl, req.getRequestURI())) {
 			loginUrl = PropertyUtil.getProperty("shiro.loginUrl");
@@ -59,11 +60,15 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 			}
 		} else {
 			try {
-				WebUtils.issueRedirect(request, response, loginUrl);
+				request.getRequestDispatcher(loginUrl).forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 		}
 
 	}
@@ -76,7 +81,7 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 			redirectToDefaultPage(request, response);
 		} else {
 			try {
-				request.getRequestDispatcher("/404.html").forward(request, response);
+				request.getRequestDispatcher("404.html").forward(request, response);
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -89,4 +94,24 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 		return false;
 	}
 
+	public static boolean redirect(ServletRequest request, ServletResponse response, String url) {
+
+		Subject subject = SecurityUtils.getSubject();
+
+		if (subject.getPrincipal() == null) {
+			redirectToDefaultPage(request, response);
+		} else {
+			try {
+				request.getRequestDispatcher(url).forward(request, response);
+			} catch (ServletException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return false;
+	}
 }

@@ -1,8 +1,10 @@
 package com.mry.shrio.filter;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mry.algorithm.crypto.process.impl.AesProcess;
 import com.mry.config.PropertyUtil;
+import com.mry.http.wrapper.RequestParameterWrapper;
 import com.mry.shiro.token.IUserPasswordToken;
 import com.mry.system.pojo.User;
 import com.mry.util.CookieUtils;
@@ -15,9 +17,12 @@ import com.mry.util.StringUtils;
 import com.mry.util.XssUtil;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -168,6 +173,32 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		// TODO Auto-generated method stub
 		IPermissionsAuthorizationFilter.redirectToDefaultPage(request, response);
 	}
+	
+	private boolean isPost(HttpServletRequest request) {
+		String method = request.getMethod();
+		if ("POST".equals(method) || "post".equals(method)) {
+			return true;
+		}
+		return false;
+	}
+	
+	private static ArrayList<String> iviews = Lists.newArrayList();
+	static {
+		//iviews.add("/login.html");
+
+	}
+	
+	@Override
+	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+		// TODO Auto-generated method stub
+		HttpServletRequest request1 = (HttpServletRequest) request;
+		String severltPath = request1.getServletPath();
+		if (!ServletUtils.isAjaxRequest(request1) && (!isPost(request1)) && (severltPath.endsWith(".html"))
+				&& !iviews.contains(severltPath)) {
+			return IPermissionsAuthorizationFilter.redirect(request1, response,severltPath);
+		}
+		return super.isAccessAllowed(request, response, mappedValue);
+	}
 
 	/**
 	 * 地址访问接入验证
@@ -198,13 +229,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 	}
 	
-	 @Override
-	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		// TODO Auto-generated method stub
-		boolean xx = super.isAccessAllowed(request, response, mappedValue);
-		
-		return xx;
-	}
 
 	/**
 	 * 是否为登录操作（支持GET或CAS登录时传递__login=true参数）

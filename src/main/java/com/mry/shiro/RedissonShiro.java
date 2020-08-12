@@ -8,7 +8,6 @@ import com.mry.redis.session.IRedissonWebSessionManager;
 import com.mry.shrio.filter.IAccessControlFilter;
 import com.mry.shrio.filter.IFormAuthenticationFilter;
 import com.mry.shrio.filter.ILogoutFilter;
-import com.mry.shrio.filter.IShiroViewFilter;
 import com.mry.util.SecurityConfigUtils;
 
 import java.util.Collection;
@@ -122,7 +121,6 @@ public class RedissonShiro extends ShiroConfig {
 		selfFilters.put("iaccess", new IAccessControlFilter());
 		selfFilters.put("ilogout", new ILogoutFilter());
 		selfFilters.put("iform",new IFormAuthenticationFilter());
-		selfFilters.put("iviews", new IShiroViewFilter());
 		// 未授权 url
 		LinkedHashMap<String, String> chains = new LinkedHashMap<>();
 		// 设置免认证 url
@@ -131,9 +129,8 @@ public class RedissonShiro extends ShiroConfig {
 			chains.put(url, "anon");
 		}
 		chains.put("/logout", "ilogout");
-		chains.put("/**", "iaccess");
 		chains.put("/**", "iform");
-		chains.put("/*.html", "iviews");
+		//chains.put("/*.html", "iviews");
 		//filterChainDefinitionMap.put("/**", "user");
 		bean.setFilterChainDefinitionMap(chains);
 		logger.info("the ShiroFilterFactoryBean has benn initial ...");

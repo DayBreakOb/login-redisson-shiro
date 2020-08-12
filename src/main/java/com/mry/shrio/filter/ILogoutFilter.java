@@ -22,7 +22,6 @@ public class ILogoutFilter extends LogoutFilter {
 		String redirectUrl = getRedirectUrl(request, response, subject);
 		try {
 			subject.logout();
-			
 			  // 如果是Ajax请求，返回Json字符串。
 	 		if (ServletUtils.isAjaxRequest((HttpServletRequest)request)){
 	 			ServletUtils.renderString((HttpServletResponse)response,
@@ -35,7 +34,6 @@ public class ILogoutFilter extends LogoutFilter {
 			e.printStackTrace();
 		}
 		return false;
-
 	}
 
 }

@@ -46,6 +46,8 @@ public class ViewController extends BaseController {
     	String viewName = request.getParameter("viewName");
     	try {
     		if (viewName!=null&&!"".equals(viewName)) {
+    		
+    			viewName =viewName.substring(viewName.lastIndexOf("/")+1);
         		return viewName;
     		}
 		} catch (Throwable  e) {
