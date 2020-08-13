@@ -14,6 +14,13 @@ import com.mry.util.ServletUtils;
 
 public class ILogoutFilter extends LogoutFilter {
 
+	
+	
+	public ILogoutFilter(){
+		
+		setRedirectUrl("_login_");
+		
+	}
 
 	@Override
 	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {

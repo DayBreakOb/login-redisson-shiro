@@ -1,10 +1,9 @@
 package com.mry.shrio.filter;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.primitives.Bytes;
 import com.mry.algorithm.crypto.process.impl.AesProcess;
 import com.mry.config.PropertyUtil;
-import com.mry.http.wrapper.RequestParameterWrapper;
 import com.mry.shiro.token.IUserPasswordToken;
 import com.mry.system.pojo.User;
 import com.mry.util.CookieUtils;
@@ -17,12 +16,11 @@ import com.mry.util.StringUtils;
 import com.mry.util.XssUtil;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletException;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +31,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.servlet.Cookie;
 import org.apache.shiro.web.servlet.SimpleCookie;
@@ -55,6 +54,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		rememberMeCookie.setHttpOnly(true);
 		rememberMeCookie.setMaxAge(Cookie.ONE_YEAR);
 		setLoginUrl("/login");
+		setSuccessUrl("/index.html");
 	}
 
 	private static Logger logger = LoggerFactory.getLogger(IFormAuthenticationFilter.class);
@@ -63,12 +63,15 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	@Override
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		// TODO Auto-generated method stub
-
+		request.getParameter("ccc");
+		int sss = request.getContentLength();
+		 String raaa = request.getContentType();
+		 ServletContext ccq = request.getServletContext();
 		String username = getUsername(request, response);
 		String passwd = getPassword(request);
 		boolean remeberMe = isRememberMe(request);
 		String host = getHost(request);
-		//String validcode = getValicode(request);
+		String validcode = getValicode(request);
 		Map<String, Object> extmap = ServletUtils.getExtParams(request);
 		return this.createToken(username, passwd.toCharArray(), remeberMe, host, "", extmap);
 	}
@@ -85,7 +88,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		if (StringUtils.isBlank(validCode)) {
 			validCode = StringUtils.toString(request.getAttribute(VALID_CODE), StringUtils.EMPTY);
 		}
-		if (StringUtils.isBlank(validCode)){
+		if (StringUtils.isBlank(validCode)) {
 			return null;
 		}
 		String secretKey = SecurityConfigUtils.AES_VALI_CODE;
@@ -115,7 +118,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 
 			try {
 				rememberMeCookie.removeFrom(WebUtils.toHttp(request), WebUtils.toHttp(response));
-			}catch (Throwable e){
+			} catch (Throwable e) {
 			}
 
 		}
@@ -134,7 +137,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 			password = AesProcess.AesDecrypt(password, secretKey);
 			if (StringUtils.isBlank(password)) {
 				logger.info("the password is null or the password decode wrong ...");
-				throw new   AuthenticationException("the password is null or the password decode wrong ...");
+				throw new AuthenticationException("the password is null or the password decode wrong ...");
 			}
 		}
 		return password;
@@ -159,11 +162,14 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	/**
 	 * 多次调用登录接口，允许改变登录身份，无需退出再登录
 	 */
-	// protected boolean isAccessAllowed(ServletRequest request, ServletResponse
-	// response, Object mappedValue) {
-	// TODO Auto-generated method stub
-//		return super.isAccessAllowed(request, response, mappedValue);
-//	}
+	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+		// TODO Auto-generated method stub
+		boolean cc = super.isAccessAllowed(request, response, mappedValue);
+		if (cc) {
+			return IViewFilter.filter(request, response, null, false);
+		}
+		return cc;
+	}
 
 	/**
 	 * 跳转登录页时，跳转到默认首页
@@ -172,32 +178,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	protected void redirectToLogin(ServletRequest request, ServletResponse response) throws IOException {
 		// TODO Auto-generated method stub
 		IPermissionsAuthorizationFilter.redirectToDefaultPage(request, response);
-	}
-	
-	private boolean isPost(HttpServletRequest request) {
-		String method = request.getMethod();
-		if ("POST".equals(method) || "post".equals(method)) {
-			return true;
-		}
-		return false;
-	}
-	
-	private static ArrayList<String> iviews = Lists.newArrayList();
-	static {
-		//iviews.add("/login.html");
-
-	}
-	
-	@Override
-	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
-		// TODO Auto-generated method stub
-		HttpServletRequest request1 = (HttpServletRequest) request;
-		String severltPath = request1.getServletPath();
-		if (!ServletUtils.isAjaxRequest(request1) && (!isPost(request1)) && (severltPath.endsWith(".html"))
-				&& !iviews.contains(severltPath)) {
-			return IPermissionsAuthorizationFilter.redirect(request1, response,severltPath);
-		}
-		return super.isAccessAllowed(request, response, mappedValue);
 	}
 
 	/**
@@ -219,16 +199,14 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 				return true;
 			}
 		} else {
-			if (logger.isTraceEnabled()) {
-				logger.trace("Attempting to access a path which requires authentication.  Forwarding to the "
-						+ "Authentication url [" + getLoginUrl() + "]");
+			if (!super.isAccessAllowed(request, response, null)) {
+				//redirectToLogin(request, response); // 此过滤器优先级较高，未登录，则跳转登录页，方便 CAS 登录
+				return IViewFilter.filter(request, response, null, false);
 			}
-			redirectToLogin(request, response); // 此过滤器优先级较高，未登录，则跳转登录页，方便 CAS 登录
-//			saveRequestAndRedirectToLogin(request, response);  // 去掉保存登录前的跳转地址  ThinkGem
+			// return IViewFilter.filter(request, response, null, false);
 			return false;
 		}
 	}
-	
 
 	/**
 	 * 是否为登录操作（支持GET或CAS登录时传递__login=true参数）
@@ -238,7 +216,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		boolean isLogin = WebUtils.isTrue(request, "__login");
 		boolean xx = super.isLoginRequest(request, response);
 		if (xx) {
-			HttpServletRequest req = (HttpServletRequest)request;
+			HttpServletRequest req = (HttpServletRequest) request;
 			String method = req.getMethod();
 			if (!("POST".equalsIgnoreCase(method))) {
 				return false;
@@ -267,8 +245,20 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 		return super.executeLogin(request, response);
 	}
-
-
+	
+	
+	@Override
+	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
+			ServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		if (ServletUtils.isAjaxRequest(WebUtils.toHttp(request))) {
+			ServletUtils.renderString((HttpServletResponse)response,
+ 					"success", "text/html");
+		//	WebUtils.issueRedirect(request, response, getSuccessUrl());
+			return false;
+		}
+		return super.onLoginSuccess(token, subject, request, response);
+	}
 
 	/**
 	 * 登录失败调用事件
@@ -354,11 +344,10 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 		data.put(LOGIN_RES_MESSAGE, message);
 
-
 		// 记录用户登录失败日志
 		String corpCode = (String) paramMap.get("corpCode");
 		User user = ShiroUtil.getByLoginCode(username, corpCode);
-		//LogUtils.saveLog(user, request, "登录失败", Log.TYPE_LOGIN_LOGOUT);
+		// LogUtils.saveLog(user, request, "登录失败", Log.TYPE_LOGIN_LOGOUT);
 
 		// 获取当前会话对象
 		Session session = ShiroUtil.getSession();

@@ -13,8 +13,10 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
 
+import com.google.common.collect.Maps;
 import com.mry.config.PropertyUtil;
 import com.mry.http.wrapper.GetHttpServletRequestWrapper;
+import com.mry.http.wrapper.RequestParameterWrapper;
 import com.mry.util.SecurityConfigUtils;
 import com.mry.util.ServletUtils;
 import com.mry.util.StringUtils;
@@ -60,10 +62,7 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 			}
 		} else {
 			try {
-				request.getRequestDispatcher(loginUrl).forward(request, response);
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				WebUtils.issueRedirect(request, response, loginUrl);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -94,15 +93,18 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 		return false;
 	}
 
-	public static boolean redirect(ServletRequest request, ServletResponse response, String url) {
+	public static void forward(ServletRequest request, ServletResponse response, String url, boolean isanno) {
 
 		Subject subject = SecurityUtils.getSubject();
 
-		if (subject.getPrincipal() == null) {
+		if (subject.getPrincipal() == null && !isanno) {
 			redirectToDefaultPage(request, response);
 		} else {
 			try {
-				request.getRequestDispatcher(url).forward(request, response);
+				HashMap<String, Object> map = Maps.newHashMap();
+				map.put("viewName", url);
+				RequestParameterWrapper requestwrapper = new RequestParameterWrapper((HttpServletRequest) request, map);
+				request.getRequestDispatcher("view").forward(requestwrapper, response);
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -111,7 +113,5 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 				e.printStackTrace();
 			}
 		}
-
-		return false;
 	}
 }

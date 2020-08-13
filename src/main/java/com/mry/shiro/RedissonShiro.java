@@ -6,6 +6,7 @@ import com.mry.cache.cachemanager.IRedissionShiroCacheManager;
 import com.mry.redis.session.IRedissonSessionDao;
 import com.mry.redis.session.IRedissonWebSessionManager;
 import com.mry.shrio.filter.IAccessControlFilter;
+import com.mry.shrio.filter.IAnonymouseFilter;
 import com.mry.shrio.filter.IFormAuthenticationFilter;
 import com.mry.shrio.filter.ILogoutFilter;
 import com.mry.util.SecurityConfigUtils;
@@ -54,6 +55,7 @@ public class RedissonShiro extends ShiroConfig {
 		}
 		bean.setFilter((Filter) filter);
 		bean.addUrlPatterns("/*");
+		bean.setOrder(1);
 		return bean;
 	}
 
@@ -121,14 +123,16 @@ public class RedissonShiro extends ShiroConfig {
 		selfFilters.put("iaccess", new IAccessControlFilter());
 		selfFilters.put("ilogout", new ILogoutFilter());
 		selfFilters.put("iform",new IFormAuthenticationFilter());
+		selfFilters.put("ianno",new IAnonymouseFilter());
 		// 未授权 url
 		LinkedHashMap<String, String> chains = new LinkedHashMap<>();
 		// 设置免认证 url
 		String[] anonUrls = StringUtils.splitByWholeSeparatorPreserveAllTokens(anno_url, ",");
 		for (String url : anonUrls) {
-			chains.put(url, "anon");
+			chains.put(url, "ianno");
 		}
 		chains.put("/logout", "ilogout");
+		chains.put("/logout*", "ilogout");
 		chains.put("/**", "iform");
 		//chains.put("/*.html", "iviews");
 		//filterChainDefinitionMap.put("/**", "user");
