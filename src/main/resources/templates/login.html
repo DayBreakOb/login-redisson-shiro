@@ -14,10 +14,11 @@
 <!-- App styles -->
 <link rel="stylesheet" href="./dist/css/app.min.css">
 
-<script src="js/crypto/crypto-js.js"></script>
-<script src="js/crypto/random/randompass.js"></script>
+
 <link rel="stylesheet" href="assets/css/signin.css">
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="js/encry/encry.js"></script>
+<script type="text/javascript" src="js/crypto/crypto-js.js"></script>
 
 </head>
 <body class="form-membership">
@@ -129,24 +130,22 @@
 	<script src="./dist/js/app.min.js"></script>
 	<script type="text/javascript">
 		function tologin() {
-
+			
+			/**
+			rsa gongsiyao
+			
+			*/
 			var username = $("#username").val();
 			var passwd = $("#password").val();
-			username = getAES(username);
-			passwd = getAES(passwd);
 			var 	data =  "abc123"+username+"abc123"+passwd+"abc123";
-			
 			var request=getAES(data);
-
 			var oReq = new XMLHttpRequest();
 			oReq.onreadystatechange = function() {
 
 				if (oReq.readyState === 4 && oReq.status === 200) {
 					var obj = oReq.response;
 					alert(obj);
-
 				}
-
 			}
 			oReq.open("POST", "/login", true);
 			oReq.onload = function(oEvent) {
@@ -176,44 +175,7 @@
 			 }); */
 		}
 
-		function getAesString(data, key, iv) {//加密
-			const key1 = CryptoJS.enc.Utf8.parse(key);
-			const iv1 = CryptoJS.enc.Utf8.parse(iv);
-			const encrypted = CryptoJS.AES.encrypt(data, key1, {
-				iv : iv1,
-				mode : CryptoJS.mode.CBC,
-				padding : CryptoJS.pad.Pkcs7
-			});
-			return encrypted.toString(); //返回的是base64格式的密文
-		}
-
-		function getDAesString(encrypted, key, iv) {//解密
-			const key2 = CryptoJS.enc.Utf8.parse(key);
-			const iv2 = CryptoJS.enc.Utf8.parse(iv);
-			const decrypted = CryptoJS.AES.decrypt(encrypted, key2, {
-				iv : iv2,
-				mode : CryptoJS.mode.CBC,
-				padding : CryptoJS.pad.Pkcs7
-			});
-			return decrypted.toString(CryptoJS.enc.Utf8);
-		}
-
-		function getAES(data) { //加密
-			const key = '1DD:sOHHmCqB1111'; //密钥
-			const iv = '1234567812345678';
-			const encrypted = getAesString(data, key, iv); //密文
-			const encrypted1 = CryptoJS.enc.Utf8.parse(encrypted);
-			return encrypted;
-		}
-
-		function getDAes(data) {//解密
-			const key = '1DD:sOHHmCqB1111'; //密钥
-			const iv = '1234567812345678';
-			const decryptedStr = getDAesString(data, key, iv);
-			return decryptedStr;
-		}
 	</script>
-
-	<footer>common.html</footer>
+<script src="js/crypto/random/randompass.js"></script>
 </body>
 </html>

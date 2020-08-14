@@ -60,8 +60,8 @@ public class AesProcess extends AbstractProcess {
 	 * aes解密-128位
 	 */
 	public static String AesDecrypt(String encryptContent, String password) {
-		if (StringUtils.isEmpty(password) || password.length() != 16) {
-			throw new RuntimeException("密钥长度为16位");
+		if (StringUtils.isEmpty(password) || password.length() != 32) {
+			throw new RuntimeException("密钥长度为32位");
 		}
 		try {
 			String key = password;

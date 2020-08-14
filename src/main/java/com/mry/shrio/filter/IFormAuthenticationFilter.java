@@ -2,8 +2,11 @@ package com.mry.shrio.filter;
 
 import com.google.common.collect.Maps;
 import com.google.common.primitives.Bytes;
+import com.mry.algorithm.crypto.CryptoUtils;
 import com.mry.algorithm.crypto.process.impl.AesProcess;
+import com.mry.algorithm.crypto.process.impl.RsaProcess;
 import com.mry.config.PropertyUtil;
+import com.mry.http.request.ParamHandle;
 import com.mry.shiro.token.IUserPasswordToken;
 import com.mry.system.pojo.User;
 import com.mry.util.CookieUtils;
@@ -63,10 +66,19 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	@Override
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		// TODO Auto-generated method stub
-		request.getParameter("ccc");
-		int sss = request.getContentLength();
-		 String raaa = request.getContentType();
-		 ServletContext ccq = request.getServletContext();
+		String str = ParamHandle.ReadAsChars(WebUtils.toHttp(request));
+		String[] strs = str.split("[|]");
+		if (strs.length == 3) {
+			String key = strs[1];
+			String iv = strs[2];
+			try {
+				String newkey = RsaProcess.decryByPrivateKey("/u01/cryptopem/rsa_1024_pri_pkcs8.pem", key);
+				System.out.println(newkey.substring(newkey.length()-13));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		String username = getUsername(request, response);
 		String passwd = getPassword(request);
 		boolean remeberMe = isRememberMe(request);
@@ -200,7 +212,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 			}
 		} else {
 			if (!super.isAccessAllowed(request, response, null)) {
-				//redirectToLogin(request, response); // 此过滤器优先级较高，未登录，则跳转登录页，方便 CAS 登录
+				// redirectToLogin(request, response); // 此过滤器优先级较高，未登录，则跳转登录页，方便 CAS 登录
 				return IViewFilter.filter(request, response, null, false);
 			}
 			// return IViewFilter.filter(request, response, null, false);
@@ -245,16 +257,14 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 		return super.executeLogin(request, response);
 	}
-	
-	
+
 	@Override
 	protected boolean onLoginSuccess(AuthenticationToken token, Subject subject, ServletRequest request,
 			ServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
 		if (ServletUtils.isAjaxRequest(WebUtils.toHttp(request))) {
-			ServletUtils.renderString((HttpServletResponse)response,
- 					"success", "text/html");
-		//	WebUtils.issueRedirect(request, response, getSuccessUrl());
+			ServletUtils.renderString((HttpServletResponse) response, "success", "text/html");
+			// WebUtils.issueRedirect(request, response, getSuccessUrl());
 			return false;
 		}
 		return super.onLoginSuccess(token, subject, request, response);

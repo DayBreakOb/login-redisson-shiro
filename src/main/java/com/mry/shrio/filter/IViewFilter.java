@@ -30,9 +30,13 @@ public class IViewFilter {
 		String severltPath = request1.getServletPath();
 		if (!ServletUtils.isAjaxRequest(request1) && (!isPost(request1)) && (severltPath.endsWith(".html"))
 				&& !iviews.contains(severltPath)) {
-			 IPermissionsAuthorizationFilter.forward(request1, response, severltPath,isanno);
+			IPermissionsAuthorizationFilter.forward(request1, response, severltPath,isanno);
 			 return false;
 		}
-		return true;
+		if (!isanno) {
+			IPermissionsAuthorizationFilter.forward(request1, response, severltPath,isanno);
+		}
+		 
+		return isanno;
 	}
 }

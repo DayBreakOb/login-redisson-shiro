@@ -35,6 +35,8 @@ public abstract class AbstractProcess implements CryptoProcess{
 //		str = str.replaceAll(" ", "+");
 		return new BASE64Decoder().decodeBuffer(str);
 	}
+	
+
 
 	/**
 	 * 将byte[] 转换成字符串

@@ -104,3 +104,27 @@ function getNextChar() {
 }
 
 
+
+function getAesString(data, key, iv) {
+	const key1 = CryptoJS.enc.Utf8.parse(key);
+	const iv1 = CryptoJS.enc.Utf8.parse(iv);
+	const encrypted = CryptoJS.AES.encrypt(data, key1, {
+		iv : iv1,
+		mode : CryptoJS.mode.CBC,
+		padding : CryptoJS.pad.Pkcs7
+	});
+	return encrypted.toString();
+}
+
+function getAES(data) {
+	var timestamp=new Date().getTime();
+	var key = getRandom(4,19)+timestamp;
+	var iv = getRandom(4,19)+timestamp;
+	const encrypted = getAesString(data, key, iv);
+	const encrypted1 = CryptoJS.enc.Utf8.parse(encrypted);
+	const crykey= getRsaEncry(key);
+	const cryiv = getRsaEncry(iv);
+	return encrypted+"|"+crykey+"|"+cryiv;
+}
+
+

@@ -1,17 +1,14 @@
 package com.mry.algorithm.crypto;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
+import java.security.KeyFactory;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -19,15 +16,14 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Enumeration;
 
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import javax.crypto.Cipher;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
 import com.mry.config.PropertyUtil;
 
@@ -42,17 +38,17 @@ public class CryptoUtils {
 	 * 根据证书获得公钥
 	 * 
 	 * @param certificatePath 证书存储路径
-	 * @param serviceName     配置服务名称
+	 * @param keystore        配置服务名称
 	 * @return
 	 * @throws Exception
 	 */
-	static PublicKey getPublicKey(String certificatePath, String serviceName) throws Exception {
-		Certificate certificate = getCertificate(certificatePath, serviceName);
+	static PublicKey getPublicKey(String certificatePath, String keystore) throws Exception {
+		Certificate certificate = getCertificate(certificatePath, keystore);
 		PublicKey publicKey = certificate.getPublicKey();
 		return publicKey;
 	}
 
-	private static Certificate getCertificate(String certificatePath, String serviceName) throws Exception {
+	private static Certificate getCertificate(String certificatePath, String keystore) throws Exception {
 		InputStream in = null;
 		try {
 			CertificateFactory certificateFactory = CertificateFactory
@@ -112,8 +108,7 @@ public class CryptoUtils {
 		try {
 			CertificateFactory certificateFactory = CertificateFactory
 					.getInstance(PropertyUtil.getProperty(CryptoConfig.CERT_TYPE, "X.509"));
-			Certificate certificate = certificateFactory.generateCertificate(
-					new ByteArrayInputStream(pubKeyBytes));
+			Certificate certificate = certificateFactory.generateCertificate(new ByteArrayInputStream(pubKeyBytes));
 			return certificate.getPublicKey();
 		} catch (Exception e) {
 			// log.error("解析公钥内容失败:", e);
@@ -123,21 +118,22 @@ public class CryptoUtils {
 
 	/**
 	 * 
-	 * @param prikeypath  私匙路径
-	 * @param priKeyPass  私匙密码
-	 * @param serviceName 调用服务名称
+	 * @param prikeypath 私匙路径
+	 * @param priKeyPass 私匙密码
+	 * @param keystore   调用服务名称
 	 * @return
 	 */
-	public static PrivateKey getPrivateKeyFromFile(String prikeypath, String priKeyPass, String serviceName) {
+	public static PrivateKey getPrivateKeyFromFile(String prikeypath, String priKeyPass, String keystore) {
 		InputStream priKeyStream = null;
 		try {
 			priKeyStream = new FileInputStream(prikeypath);
 			byte[] reads = new byte[priKeyStream.available()];
 			priKeyStream.read(reads);
-			return getPrivateKeyByStream(reads, priKeyPass, serviceName);
+			return getPrivateKeyByStream(reads, priKeyPass, keystore);
 		} catch (Exception e) {
 			// log.error("解析文件，读取私钥失败:", e);
-			throw new RuntimeException(e.getMessage(), e);
+			e.printStackTrace();
+			// throw new RuntimeException(e.getMessage(), e);
 		} finally {
 			if (priKeyStream != null) {
 				try {
@@ -146,25 +142,43 @@ public class CryptoUtils {
 				}
 			}
 		}
+		return null;
 	}
 
-	private static PrivateKey getPrivateKeyByStream(byte[] prikeyBytes, String priKeyPass, String serviceName) {
+	private static PrivateKey getPrivateKeyByStream(byte[] prikeyBytes, String priKeyPass, String keystore) {
 		try {
-			KeyStore ks = KeyStore.getInstance(PropertyUtil.getProperty(CryptoConfig.KEY_STORE, "PKCS12"));
-			char[] charPriKeyPass = priKeyPass.toCharArray();
-			ks.load(new ByteArrayInputStream(prikeyBytes), charPriKeyPass);
-			Enumeration<String> aliasEnum = ks.aliases();
-			String keyAlias = null;
-			if (aliasEnum.hasMoreElements()) {
-				keyAlias = (String) aliasEnum.nextElement();
+
+			switch (keystore) {
+			case "RSA":
+				try {
+					PKCS8EncodedKeySpec pkcs8encode = new PKCS8EncodedKeySpec(prikeyBytes);
+					KeyFactory kf = KeyFactory.getInstance(keystore);
+					PrivateKey pk = kf.generatePrivate(pkcs8encode);
+					return pk;
+				} catch (InvalidKeySpecException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+
+			default:
+				KeyStore ks = KeyStore.getInstance(keystore);
+				char[] charPriKeyPass = priKeyPass.toCharArray();
+				ks.load(new ByteArrayInputStream(prikeyBytes), charPriKeyPass);
+				Enumeration<String> aliasEnum = ks.aliases();
+				String keyAlias = null;
+				if (aliasEnum.hasMoreElements()) {
+					keyAlias = (String) aliasEnum.nextElement();
+				}
+				return (PrivateKey) ks.getKey(keyAlias, charPriKeyPass);
 			}
-			return (PrivateKey) ks.getKey(keyAlias, charPriKeyPass);
 		} catch (IOException e) {
 			// 加密失败
 			// log.error("解析文件，读取私钥失败:", e);
 			throw new RuntimeException("解析文件，读取私钥失败,加密失败", e);
 		} catch (KeyStoreException e) {
 			// log.error("私钥存储异常:", e);
+			e.printStackTrace();
 			throw new RuntimeException("私钥存储异常", e);
 		} catch (NoSuchAlgorithmException e) {
 			// log.error("不存在的解密算法:", e);
@@ -176,36 +190,37 @@ public class CryptoUtils {
 			// log.error("不可恢复的秘钥异常", e);
 			throw new RuntimeException("不可恢复的秘钥异常", e);
 		}
+		return null;
 	}
 
 	public static byte[] crypto(boolean ispub, String filepath, String source, String prikeypwd, boolean isen,
-			String serviceName) throws Exception {
+			String keystore) throws Exception {
 		byte[] result = null;
 		if (ispub) {
-			PublicKey pk = getPublicKey(filepath, serviceName);
+			PublicKey pk = getPublicKey(filepath, keystore);
 			Cipher cipher = Cipher.getInstance(pk.getAlgorithm());
 			if (isen) {
 				cipher.init(Cipher.ENCRYPT_MODE, pk);
-				result = cryptoMessage(cipher, Cipher.ENCRYPT_MODE, source, serviceName);
+				result = cryptoMessage(cipher, Cipher.ENCRYPT_MODE, source, keystore);
 			} else {
 				cipher.init(Cipher.DECRYPT_MODE, pk);
-				result = cryptoMessage(cipher, Cipher.DECRYPT_MODE, source, serviceName);
+				result = cryptoMessage(cipher, Cipher.DECRYPT_MODE, source, keystore);
 			}
 		} else if (!ispub) {
-			PrivateKey pk = getPrivateKeyFromFile(filepath, prikeypwd, serviceName);
+			PrivateKey pk = getPrivateKeyFromFile(filepath, prikeypwd, keystore);
 			Cipher cipher = Cipher.getInstance(pk.getAlgorithm());
 			if (isen) {
 				cipher.init(Cipher.ENCRYPT_MODE, pk);
-				result = cryptoMessage(cipher, Cipher.ENCRYPT_MODE, source, serviceName);
+				result = cryptoMessage(cipher, Cipher.ENCRYPT_MODE, source, keystore);
 			} else {
 				cipher.init(Cipher.DECRYPT_MODE, pk);
-				result = cryptoMessage(cipher, Cipher.DECRYPT_MODE, source, serviceName);
+				result = cryptoMessage(cipher, Cipher.DECRYPT_MODE, source, keystore);
 			}
 		}
 		return result;
 	}
 
-	private static byte[] cryptoMessage(Cipher cipher, int mode, String source, String serviceName) {
+	private static byte[] cryptoMessage(Cipher cipher, int mode, String source, String keystore) {
 		ByteArrayOutputStream out = null;
 		int blocksize = 0;
 		boolean isen = true;
@@ -253,7 +268,7 @@ public class CryptoUtils {
 	}
 
 	/**
-	 *use the str to the 16 hex --byte[]  
+	 * use the str to the 16 hex --byte[]
 	 */
 	private static byte[] hex2Bytes(String source) {
 		byte[] sourceBytes = new byte[source.length() / 2];
@@ -262,11 +277,5 @@ public class CryptoUtils {
 		}
 		return sourceBytes;
 	}
-
-
-	
-
-
-
 
 }
