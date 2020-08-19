@@ -12,6 +12,7 @@ import org.apache.shiro.web.session.mgt.WebSessionKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.mry.http.wrapper.RequestParameterWrapper;
 import com.mry.http.wrapper.XssHttpServletRequestWrapper;
 
 import javax.servlet.ServletRequest;
@@ -97,7 +98,11 @@ public class IRedissonSessionManager extends AbstractNativeSessionManager {
 			WebSessionKey websessionkey = (WebSessionKey) sessionKey;
 			ServletRequest request = websessionkey.getServletRequest();
 			ShiroHttpServletRequest rew = (ShiroHttpServletRequest) request;
-			RequestFacade req = (RequestFacade) XssHttpServletRequestWrapper.getOrgRequest(rew.getRequest());
+			ServletRequest refacede = XssHttpServletRequestWrapper.getOrgRequest(rew.getRequest());
+			if (refacede instanceof RequestParameterWrapper) {
+				 refacede = RequestParameterWrapper.getOrgRequest(refacede);
+			}
+			RequestFacade req = (RequestFacade) refacede;
 			sessionid = req.getRequestedSessionId();
 		}
 		return sessionid;

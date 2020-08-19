@@ -2,6 +2,7 @@ package com.mry.http.wrapper;
 
 import com.google.common.collect.Maps;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import java.util.Map;
@@ -63,5 +64,12 @@ public class RequestParameterWrapper extends HttpServletRequestWrapper {
     @Override
     public String[] getParameterValues(String name){
         return map.get(name);
+    }
+    
+    public static ServletRequest getOrgRequest(ServletRequest servletRequest) {
+        if (servletRequest instanceof RequestParameterWrapper) {
+            return ((RequestParameterWrapper) servletRequest).getRequest();
+        }
+        return servletRequest;
     }
 }

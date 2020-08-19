@@ -32,7 +32,7 @@ public class SecurityConfigUtils {
 
 	public static final String[] ALLOW_REMOTE_ADDRESS = { "127.0.0.1","localhost","0:0:0:0:0:0:0:1"};
 
-	public static final String AJAXLOGIN = "/login";
+	public static final String AJAXLOGIN = "/_login_";
 
 	public static boolean isGenerateNewSessionAfterLogin = false;
 

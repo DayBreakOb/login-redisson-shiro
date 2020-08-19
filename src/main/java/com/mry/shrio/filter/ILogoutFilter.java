@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authc.LogoutFilter;
 
+import com.mry.config.BaseConfig;
 import com.mry.util.ServletUtils;
 
 
@@ -18,7 +19,7 @@ public class ILogoutFilter extends LogoutFilter {
 	
 	public ILogoutFilter(){
 		
-		setRedirectUrl("_login_");
+		setRedirectUrl(BaseConfig.loginUrl);
 		
 	}
 

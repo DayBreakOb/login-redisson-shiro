@@ -3,6 +3,7 @@ package com.mry.shrio.filter;
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -14,6 +15,7 @@ import org.apache.shiro.web.filter.authz.PermissionsAuthorizationFilter;
 import org.apache.shiro.web.util.WebUtils;
 
 import com.google.common.collect.Maps;
+import com.mry.config.BaseConfig;
 import com.mry.config.PropertyUtil;
 import com.mry.http.wrapper.GetHttpServletRequestWrapper;
 import com.mry.http.wrapper.RequestParameterWrapper;
@@ -43,15 +45,15 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 	 * auth to the login page ;to the defaultPath(first page)
 	 */
 	public static void redirectToDefaultPage(ServletRequest request, ServletResponse response) {
-		String loginUrl = PropertyUtil.getProperty("shiro.defaultPath", "_login_");
+		String loginUrl = PropertyUtil.getProperty("shiro.defaultPath",BaseConfig.loginUrl);
 		HttpServletRequest req = (HttpServletRequest) request;
 		if (StringUtils.equals(req.getContextPath() + loginUrl, req.getRequestURI())) {
 			loginUrl = PropertyUtil.getProperty("shiro.loginUrl");
 		}
+
 		if (ServletUtils.isAjaxRequest(req)) {
-			String ajaxLogin = SecurityConfigUtils.AJAXLOGIN;
 			try {
-				request.getRequestDispatcher(ajaxLogin).forward(new GetHttpServletRequestWrapper(request), response);
+				request.getRequestDispatcher("/").forward(new GetHttpServletRequestWrapper(request), response);
 			} catch (ServletException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -62,7 +64,7 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 			}
 		} else {
 			try {
-				WebUtils.issueRedirect(request, response, loginUrl);
+				WebUtils.issueRedirect(request, response, "/"+loginUrl);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -118,8 +118,8 @@ function getAesString(data, key, iv) {
 
 function getAES(data) {
 	var timestamp=new Date().getTime();
-	var key = getRandom(4,19)+timestamp;
-	var iv = getRandom(4,19)+timestamp;
+	var key = getRandom1(4,19)+timestamp;
+	var iv = getRandom1(4,3)+timestamp;
 	const encrypted = getAesString(data, key, iv);
 	const encrypted1 = CryptoJS.enc.Utf8.parse(encrypted);
 	const crykey= getRsaEncry(key);

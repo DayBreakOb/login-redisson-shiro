@@ -1,8 +1,6 @@
 package com.mry.shrio.filter;
 
 import com.google.common.collect.Maps;
-import com.google.common.primitives.Bytes;
-import com.mry.algorithm.crypto.CryptoUtils;
 import com.mry.algorithm.crypto.process.impl.AesProcess;
 import com.mry.algorithm.crypto.process.impl.RsaProcess;
 import com.mry.config.PropertyUtil;
@@ -22,8 +20,6 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletInputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -66,19 +62,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	@Override
 	protected AuthenticationToken createToken(ServletRequest request, ServletResponse response) {
 		// TODO Auto-generated method stub
-		String str = ParamHandle.ReadAsChars(WebUtils.toHttp(request));
-		String[] strs = str.split("[|]");
-		if (strs.length == 3) {
-			String key = strs[1];
-			String iv = strs[2];
-			try {
-				String newkey = RsaProcess.decryByPrivateKey("/u01/cryptopem/rsa_1024_pri_pkcs8.pem", key);
-				System.out.println(newkey.substring(newkey.length()-13));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		String username = getUsername(request, response);
 		String passwd = getPassword(request);
 		boolean remeberMe = isRememberMe(request);
@@ -105,7 +88,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 		String secretKey = SecurityConfigUtils.AES_VALI_CODE;
 		if (StringUtils.isNotBlank(secretKey)) {
-			validCode = AesProcess.AesDecrypt(validCode, secretKey);
 		}
 		return validCode;
 	}
@@ -118,7 +100,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 		String loginsk = SecurityConfigUtils.AES_LOGIN_SK;
 		if (StringUtils.isNotBlank(loginsk)) {
-			username = AesProcess.AesDecrypt(username, loginsk);
 			if (StringUtils.isBlank(username)) {
 				logger.info("the login username is null or the decode the username is wrong ...");
 			}
@@ -146,7 +127,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		}
 		String secretKey = SecurityConfigUtils.AES_PASSWD_SK;
 		if (StringUtils.isNotBlank(secretKey)) {
-			password = AesProcess.AesDecrypt(password, secretKey);
 			if (StringUtils.isBlank(password)) {
 				logger.info("the password is null or the password decode wrong ...");
 				throw new AuthenticationException("the password is null or the password decode wrong ...");
@@ -174,6 +154,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	/**
 	 * 多次调用登录接口，允许改变登录身份，无需退出再登录
 	 */
+	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
 		// TODO Auto-generated method stub
 		boolean cc = super.isAccessAllowed(request, response, mappedValue);
@@ -342,7 +323,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 
 		String secretKey = SecurityConfigUtils.AES_LOGIN_SK;
 		if (StringUtils.isNotBlank(secretKey)) {
-			username = AesProcess.AesDecrypt(username, secretKey);
 		}
 
 		data.put(DEFAULT_USERNAME_PARAM, username);

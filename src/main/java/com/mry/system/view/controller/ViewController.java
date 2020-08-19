@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.mry.config.BaseConfig;
 import com.mry.controller.BaseController;
 import com.mry.util.ServletUtils;
 
@@ -29,9 +30,10 @@ public class ViewController extends BaseController {
             if ("?".equals(querystr)) {
                 querystr = "";
             }
-            ServletUtils.redirectUrl(request, response, "/_login_" + querystr);
+            ServletUtils.redirectUrl(request, response, BaseConfig.loginUrl+ querystr);
             return null;
         }
+        
         if (getCUrrentUser() != null) {
             ServletUtils.redirectUrl(request, response, "/index.html");
             return null;

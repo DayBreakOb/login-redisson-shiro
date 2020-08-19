@@ -48,11 +48,12 @@ public class IXssFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		if (handleExcludeUrl(WebUtils.toHttp(request))) {
+		HttpServletRequest hreq = WebUtils.toHttp(request);
+		if (handleExcludeUrl(hreq)) {
 			chain.doFilter(request, response);
 			return;
 		}
-		XssHttpServletRequestWrapper xssrequest = new XssHttpServletRequestWrapper(WebUtils.toHttp(request),flag);
+		XssHttpServletRequestWrapper xssrequest = new XssHttpServletRequestWrapper(WebUtils.toHttp(request), flag);
 		chain.doFilter(xssrequest, response);
 	}
 

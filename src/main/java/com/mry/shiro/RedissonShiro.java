@@ -3,6 +3,7 @@ package com.mry.shiro;
 import com.google.common.collect.Lists;
 import com.mry.algorithm.crypto.process.impl.AesProcess;
 import com.mry.cache.cachemanager.IRedissionShiroCacheManager;
+import com.mry.config.BaseConfig;
 import com.mry.redis.session.IRedissonSessionDao;
 import com.mry.redis.session.IRedissonWebSessionManager;
 import com.mry.shrio.filter.IAccessControlFilter;
@@ -55,7 +56,7 @@ public class RedissonShiro extends ShiroConfig {
 		}
 		bean.setFilter((Filter) filter);
 		bean.addUrlPatterns("/*");
-		bean.setOrder(1);
+		bean.setOrder(BaseConfig.shiroFilterOrder);
 		return bean;
 	}
 

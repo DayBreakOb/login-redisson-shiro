@@ -59,13 +59,13 @@ public class AesProcess extends AbstractProcess {
 	/**
 	 * aes解密-128位
 	 */
-	public static String AesDecrypt(String encryptContent, String password) {
-		if (StringUtils.isEmpty(password) || password.length() != 32) {
+	public static String AesDecrypt(String encryptContent, String aesKey,String aesIv) {
+		if (StringUtils.isEmpty(aesKey) || aesKey.length() != 32) {
 			throw new RuntimeException("密钥长度为32位");
 		}
 		try {
-			String key = password;
-			String iv = "1234567812345678";
+			String key = aesKey;
+			String iv = aesIv;
 			//byte[] encrypted1 = hex2Bytes(encryptContent);
 			byte[] encrypted1 = Base64DecodeTobytes(encryptContent);
 			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
