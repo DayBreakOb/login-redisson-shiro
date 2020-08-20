@@ -26,5 +26,10 @@ public class BaseConfig {
 	public static int UrlFilterOrder = 0;
 	
 	public static String xssExcludes = "/favicon.ico,/img/*,/js/*,/css/*/assets/*,/dist/*,/vendor/*,/images/*";
+	
+	public static String loginRsaPriFilePath = "/u01/cryptopem/rsa_1024_pri_pkcs8.pem";
+	
+	public static int requestMinLogin =6;
+	public static int requestMaxLogin =60;
 
 }

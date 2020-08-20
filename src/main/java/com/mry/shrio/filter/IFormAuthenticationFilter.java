@@ -1,10 +1,7 @@
 package com.mry.shrio.filter;
 
 import com.google.common.collect.Maps;
-import com.mry.algorithm.crypto.process.impl.AesProcess;
-import com.mry.algorithm.crypto.process.impl.RsaProcess;
 import com.mry.config.PropertyUtil;
-import com.mry.http.request.ParamHandle;
 import com.mry.shiro.token.IUserPasswordToken;
 import com.mry.system.pojo.User;
 import com.mry.util.CookieUtils;
@@ -40,7 +37,6 @@ import org.slf4j.LoggerFactory;
 
 public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 
-	private static final String VALID_CODE = "validCode";
 	private static final String LOGIN_RES_MESSAGE = "resMessage";// login response msg
 	private static final String REMEMBER_ME_USER = "remeberMeUser";
 	private static final String EXCEPTION_NAME = "exception"; // exceptionName
@@ -66,7 +62,6 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		String passwd = getPassword(request);
 		boolean remeberMe = isRememberMe(request);
 		String host = getHost(request);
-		String validcode = getValicode(request);
 		Map<String, Object> extmap = ServletUtils.getExtParams(request);
 		return this.createToken(username, passwd.toCharArray(), remeberMe, host, "", extmap);
 	}
@@ -77,20 +72,15 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		return new IUserPasswordToken(username, password, rememberMe, host, validCode, exMap);
 	}
 
-	private String getValicode(ServletRequest request) {
-		// TODO Auto-generated method stub
-		String validCode = WebUtils.getCleanParam(request, VALID_CODE);
-		if (StringUtils.isBlank(validCode)) {
-			validCode = StringUtils.toString(request.getAttribute(VALID_CODE), StringUtils.EMPTY);
-		}
-		if (StringUtils.isBlank(validCode)) {
-			return null;
-		}
-		String secretKey = SecurityConfigUtils.AES_VALI_CODE;
-		if (StringUtils.isNotBlank(secretKey)) {
-		}
-		return validCode;
-	}
+	/*
+	 * private String getValicode(ServletRequest request) { // TODO Auto-generated
+	 * method stub String validCode = WebUtils.getCleanParam(request, VALID_CODE);
+	 * if (StringUtils.isBlank(validCode)) { validCode =
+	 * StringUtils.toString(request.getAttribute(VALID_CODE), StringUtils.EMPTY); }
+	 * if (StringUtils.isBlank(validCode)) { return null; } String secretKey =
+	 * SecurityConfigUtils.AES_VALI_CODE; if (StringUtils.isNotBlank(secretKey)) { }
+	 * return validCode; }
+	 */
 
 	protected String getUsername(ServletRequest request, ServletResponse response) {
 		// TODO Auto-generated method stub

@@ -103,7 +103,10 @@ public class IPermissionsAuthorizationFilter extends PermissionsAuthorizationFil
 			redirectToDefaultPage(request, response);
 		} else {
 			try {
-				HashMap<String, Object> map = Maps.newHashMap();
+				HashMap<String, String> map = Maps.newHashMap();
+				if ("/".equals(url)) {
+					url = "index.html";
+				}
 				map.put("viewName", url);
 				RequestParameterWrapper requestwrapper = new RequestParameterWrapper((HttpServletRequest) request, map);
 				request.getRequestDispatcher("view").forward(requestwrapper, response);

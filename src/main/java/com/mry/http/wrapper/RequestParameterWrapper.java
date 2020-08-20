@@ -23,15 +23,15 @@ public class RequestParameterWrapper extends HttpServletRequestWrapper {
         this.map.putAll(request.getParameterMap());
     }
 
-    public RequestParameterWrapper(HttpServletRequest request, Map<String, Object> ext) {
+    public RequestParameterWrapper(HttpServletRequest request, Map<String, String> ext) {
         this(request);
         addParameters(ext);
     }
 
 
-    private void addParameters(Map<String, Object> ext) {
+    private void addParameters(Map<String, String> ext) {
         if (null != ext && ext.size() > 0) {
-            for (Map.Entry<String, Object> entry : ext.entrySet()) {
+            for (Map.Entry<String, String> entry : ext.entrySet()) {
                 addparameter(entry.getKey(), entry.getValue());
             }
         }

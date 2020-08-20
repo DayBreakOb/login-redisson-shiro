@@ -82,7 +82,7 @@
                 <input type="checkbox "class="custom-control-input" checked="" id="customCheck1">
                 <label class="custom-control-label" for="customCheck1">Remember me</label>
             </div> -->
-                <input type="hidden" name="ioioioio" value="${qwertyuiop}">
+				<input type="hidden" name="ioioioio" value="${qwertyuiop}">
 			</div>
 			<button class="btn btn-primary btn-block" type="button"
 				onclick="tologin()">Sign in</button>
@@ -130,58 +130,55 @@
 	<script src="./dist/js/app.min.js"></script>
 	<script type="text/javascript">
 		function tologin() {
-			
+
 			/**
 			rsa gongsiyao
 			
-			*/
+			 */
 			var username = $("#username").val();
 			var passwd = $("#password").val();
-			var 	data =  "{'username':"+username+",'password':"+passwd+"}";
-			var request=getAES(data);
+			var data = "{'username':'" + username + "','password':'" + passwd
+					+ "'}";
+			var request = getAES(data);
 			var oReq = new XMLHttpRequest();
 			oReq.onreadystatechange = function() {
-
 				if (oReq.readyState === 4 && oReq.status === 200) {
 					var obj = oReq.response;
-					console.log(obj+"-------------------1"+oReq.readyState);
-				}else{
-					console.log(oReq.response+"______________________2"+oReq.readyState);
+					if ("success" == obj) {
+						location.href = "/index.html";
+					} else {
+						alert(obj);
+					}
 				}
 			}
 			oReq.open("POST", "/login", true);
-			oReq.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
+			oReq.setRequestHeader("Content-Type", "text/plain;charset=UTF-8");
 			//: XMLHttpRequest
-			oReq.setRequestHeader("X-Requested-With","XMLHttpRequest");
-			oReq.onload = function(oEvent) {
-				console.log("ooooooooo"+oEvent);
-				// Uploaded.
-			};
+			oReq.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 			oReq.send(request);
-		/* 	  $.ajax({
-			     //请求方式
-			     type: "POST",
-			     //请求地址
-			     url: "/login",
-			     //数据，json字符串
-			     data: {"username": username, "password": passwd},
-			     //请求成功
-			     success: function (result) {
-			     	alert(result);
-			     	if("success"==result){
-			             location.href="/index.html";
-			     	}else{
-			     		alert(result);
-			     	}
-			     },
-			     //请求失败，包含具体的错误信息
-			     error: function (e) {
-			         alert(e.responseText);
-			     }
-			 });  */
+			/* 	  $.ajax({
+				     //请求方式
+				     type: "POST",
+				     //请求地址
+				     url: "/login",
+				     //数据，json字符串
+				     data: {"username": username, "password": passwd},
+				     //请求成功
+				     success: function (result) {
+				     	alert(result);
+				     	if("success"==result){
+				             location.href="/index.html";
+				     	}else{
+				     		alert(result);
+				     	}
+				     },
+				     //请求失败，包含具体的错误信息
+				     error: function (e) {
+				         alert(e.responseText);
+				     }
+				 });  */
 		}
-
 	</script>
-<script src="js/crypto/random/randompass.js"></script>
+	<script src="js/crypto/random/randompass.js"></script>
 </body>
 </html>
