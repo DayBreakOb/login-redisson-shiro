@@ -106,6 +106,9 @@ public class RedissonShiro extends ShiroConfig {
 	@Bean
 	public WebSecurityManager securityManager(ShiroRealm shiroRealm) {
 		DefaultWebSecurityManager dsm = new DefaultWebSecurityManager();
+		IRedissonSessionDao sessionDAO=new IRedissonSessionDao();
+		sessionDAO.setRedissonClient(redissonClient);
+		shiroRealm.setSessionDAO(sessionDAO);
 		dsm.setRealm(shiroRealm);
 		dsm.setSessionManager(SessionManager());
 		dsm.setCacheManager(cacheManager());

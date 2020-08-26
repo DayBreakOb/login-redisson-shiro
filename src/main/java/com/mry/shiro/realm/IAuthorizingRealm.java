@@ -1,15 +1,16 @@
 package com.mry.shiro.realm;
 
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.mgt.eis.SessionDAO;
+
+import com.mry.redis.session.IRedissonSessionDao;
 
 public abstract class IAuthorizingRealm extends AuthorizingRealm{
 
 	
-	protected SessionDAO sessionDAO;
+	protected IRedissonSessionDao sessionDAO;
 
 
-	public void setSessionDAO(SessionDAO sessionDAO) {
+	public void setSessionDAO(IRedissonSessionDao sessionDAO) {
 		this.sessionDAO = sessionDAO;
 	}
 	
