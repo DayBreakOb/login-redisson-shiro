@@ -6,7 +6,6 @@ import java.security.interfaces.RSAPrivateKey;
 import javax.crypto.Cipher;
 
 import com.mry.algorithm.crypto.RsaSignUtil;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 public class RsaProcess extends AbstractProcess {
 

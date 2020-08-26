@@ -53,8 +53,9 @@ public class IUrlFilter implements Filter {
 
 	@SuppressWarnings("unchecked")
 	public Map<String, String> decodeParams(ServletRequest request, ServletResponse response) {
-		String str = ParamHandle.ReadAsChars(WebUtils.toHttp(request));
 		Map<String, String> map = Maps.newHashMap();
+		try {
+		String str = ParamHandle.ReadAsChars(WebUtils.toHttp(request));
 		String[] strs = str.split("[|]");
 		if (strs.length == 3) {
 			String key = strs[1];
@@ -75,6 +76,11 @@ public class IUrlFilter implements Filter {
 				map=new Gson().fromJson(strconten,Map.class);
 				return map;
 			}
+		}
+		
+		} catch (Throwable e) {
+			// TODO: handle exception
+			ServletUtils.renderString(WebUtils.toHttp(response), "Illegal request is forbidden!!!", "text/html");
 		}
 		return map;
 	}
