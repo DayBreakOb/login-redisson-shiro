@@ -46,7 +46,7 @@ public class DynamicDataSource extends AbstractRoutingDataSource {
 		return dataSource;
 	}
 
-	public static boolean IsExistsDataSource(String key) {
+	public static boolean isExistsDataSource(String key) {
 		return dataSourceMap.containsKey(key);
 	}
 

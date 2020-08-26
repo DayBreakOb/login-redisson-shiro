@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import com.alibaba.druid.pool.DruidDataSource;
 
@@ -82,7 +83,7 @@ public class IDataSource {
 	}
 
 	@Bean
-	public DataSourceTransactionManager dataSourceTransactionManager(DynamicDataSource dataSource) {
+	public PlatformTransactionManager dataSourceTransactionManager(DynamicDataSource dataSource) {
 		DataSourceTransactionManager transactionmanager = new DataSourceTransactionManager();
 		transactionmanager.setDataSource(dataSource);
 		return transactionmanager;
