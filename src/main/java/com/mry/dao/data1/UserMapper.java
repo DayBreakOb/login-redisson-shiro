@@ -1,6 +1,8 @@
 package com.mry.dao.data1;
 
 
+import java.util.Map;
+
 import com.mry.system.pojo.User;
 
 
@@ -13,6 +15,8 @@ public interface UserMapper  {
      * @return 用户
      */
     User findByName(String username);
+
+	void registerUser(Map<String, String> map);
 
    
 

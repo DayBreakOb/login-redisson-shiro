@@ -53,7 +53,7 @@ public class IXssFilter implements Filter {
 			chain.doFilter(request, response);
 			return;
 		}
-		XssHttpServletRequestWrapper xssrequest = new XssHttpServletRequestWrapper(WebUtils.toHttp(request), flag);
+		XssHttpServletRequestWrapper xssrequest = new XssHttpServletRequestWrapper(WebUtils.toHttp(request), flag,hreq.getParameterMap());
 		chain.doFilter(xssrequest, response);
 	}
 
@@ -65,7 +65,9 @@ public class IXssFilter implements Filter {
 		for (String xx : excludes) {
 			Pattern pattern = Pattern.compile("^" + xx, Pattern.CASE_INSENSITIVE);
 			Matcher matcher = pattern.matcher(url);
-			return matcher.find();
+			if (matcher.find()) {
+				return true;
+			}
 		}
 		return false;
 	}

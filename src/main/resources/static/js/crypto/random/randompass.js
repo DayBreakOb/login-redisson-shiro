@@ -6,104 +6,180 @@ var numberMax = 9;
 var capitalIndex = 65;
 var lowerCaseIndex = 97;
 var special = 0;
-var specialCharacter = [[33, 14], [58, 6], [91, 5], [123, 3]];
+var specialCharacter = [ [ 33, 14 ], [ 58, 6 ], [ 91, 5 ], [ 123, 3 ] ];
 var length = 16;
 var strengthLevel = 4;
 
 function StringBuffer() {
 
-    this.__strings__ = [];
+	this.__strings__ = [];
 
 }
 
-StringBuffer.prototype.Append = function (str) {
-    this.__strings__.push(str);
-    return this;
+StringBuffer.prototype.Append = function(str) {
+	this.__strings__.push(str);
+	return this;
 }
 
-StringBuffer.prototype.toString = function () {
+StringBuffer.prototype.toString = function() {
 
-    return this.__strings__.join('');
+	return this.__strings__.join('');
 }
-StringBuffer.prototype.size = function () {
-    return this.__strings__.length;
+StringBuffer.prototype.size = function() {
+	return this.__strings__.length;
 }
-StringBuffer.prototype.clear = function () {
-    this.__strings__ = [];
+StringBuffer.prototype.clear = function() {
+	this.__strings__ = [];
 }
 
 function getRandom() {
-    var sb = new StringBuffer();
-    if (length <= 0)
-        throw 'length can not <=0';
-    for (var i = 0; i < length; i++) {
-        var xx = getNextChar();
-        sb.Append(String.fromCodePoint(xx))
-    }
-    return sb.toString();
+	var sb = new StringBuffer();
+	if (length <= 0)
+		throw 'length can not <=0';
+	for (var i = 0; i < length; i++) {
+		var xx = getNextChar();
+		sb.Append(String.fromCodePoint(xx))
+	}
+	return sb.toString();
 }
 
 function getRandom1(strengthLevel, length) {
 
-    this.strengthLevel = strengthLevel;
-    this.length = length;
-    return getRandom();
+	this.strengthLevel = strengthLevel;
+	this.length = length;
+	return getRandom();
 }
-
 
 function getNextChar() {
-    if (strengthLevel < 1 || strengthLevel > 4)
-        throw 'this level is not suppported';
-    //ascii
-    var x = 0;
-    //伪字符ascii
-    var puppetLetter = Math.ceil(Math.random() * randomMax) % numberOfLetter;
-    //伪数字ascii
-    var pupperNumber = Math.ceil(Math.random() * randomMax) % numberIndex +numberIndex;
+	if (strengthLevel < 1 || strengthLevel > 4)
+		throw 'this level is not suppported';
+	// ascii
+	var x = 0;
+	// 伪字符ascii
+	var puppetLetter = Math.ceil(Math.random() * randomMax) % numberOfLetter;
+	// 伪数字ascii
+	var pupperNumber = Math.ceil(Math.random() * randomMax) % numberIndex
+			+ numberIndex;
 
-    var levelIndex = Math.ceil(Math.random() * randomMax) % strengthLevel;
-    //特殊字符数组一维
-    var specialType = Math.ceil(Math.random() * randomMax) % specialCharacter.length;
-    //特殊字符二维ascii
-    var specialInt = Math.ceil(Math.random() * randomMax) % specialCharacter[specialType][index] + specialCharacter[specialType][special];
+	var levelIndex = Math.ceil(Math.random() * randomMax) % strengthLevel;
+	// 特殊字符数组一维
+	var specialType = Math.ceil(Math.random() * randomMax)
+			% specialCharacter.length;
+	// 特殊字符二维ascii
+	var specialInt = Math.ceil(Math.random() * randomMax)
+			% specialCharacter[specialType][index]
+			+ specialCharacter[specialType][special];
 
-    switch (strengthLevel) {
+	switch (strengthLevel) {
 
-        case 1:
-            x = pupperNumber;
-            break;
-        case 2:
-            if (levelIndex == index)
-                x = pupperNumber;
-            else
-                x = puppetLetter + lowerCaseIndex;
-            break;
-        case 3:
+	case 1:
+		x = pupperNumber;
+		break;
+	case 2:
+		if (levelIndex == index)
+			x = pupperNumber;
+		else
+			x = puppetLetter + lowerCaseIndex;
+		break;
+	case 3:
 
-            if (levelIndex == 0)
-                x = pupperNumber;
-            else if (levelIndex == index)
-                x = puppetLetter + lowerCaseIndex;
-            else x = puppetLetter + capitalIndex;
-            break;
-        case 4:
-            if (levelIndex == 0)
-                x = pupperNumber;
-            else if (levelIndex == index)
-                x = puppetLetter + lowerCaseIndex;
-            else if (levelIndex == index * 2)
-                x = puppetLetter + capitalIndex;
-            else x = specialInt;
-            break;
-        default:
-            break;
-    }
+		if (levelIndex == 0)
+			x = pupperNumber;
+		else if (levelIndex == index)
+			x = puppetLetter + lowerCaseIndex;
+		else
+			x = puppetLetter + capitalIndex;
+		break;
+	case 4:
+		if (levelIndex == 0)
+			x = pupperNumber;
+		else if (levelIndex == index)
+			x = puppetLetter + lowerCaseIndex;
+		else if (levelIndex == index * 2)
+			x = puppetLetter + capitalIndex;
+		else
+			x = specialInt;
+		break;
+	default:
+		break;
+	}
 
-
-    return x;
+	return x;
 }
 
+function handledata(data) {
+	var sb = new StringBuffer();
+	sb.Append("{");
+	if (data instanceof Array) {
+		for (var i = 0; i < data.length; i++) {
+			var islast = false;
+			if (i == data.length - 1) {
+				islast = true;
+			}
+			handlejson(data[i], sb, islast);
+		}
+	} else if (isJson(data)) {
+		handlejson(data, sb, true);
+	}
+	sb.Append("}");
+	return sb.toString();
 
+}
+
+function handlejson(json, sb, islast) {
+	if (isJson(json)) {
+		var length = getjsonlength(json);
+		var i = 0;
+		for ( var key in json) {
+			sb.Append("'" + key + "':");
+			var value = json[key];
+			if (islast && (i == length - 1)) {
+				sb.Append("'" + value+"'");
+			} else {
+				sb.Append("'" + value + "'"+",");
+			}
+			i++;
+		}
+	} else {
+		if (islast) {
+			sb.Append("'" + value+"'");
+		} else {
+			sb.Append("'" + value + "'"+",");
+		}
+	}
+}
+
+function getjsonlength(json) {
+	var i = 0;
+	for ( var key in json) {
+		i++;
+	}
+	return i;
+}
+
+function strIsJson(str) {
+
+	try {
+		if (typeof JSON.parse(str) == 'object') {
+
+			return isJson(JSON.parse(str));
+		}
+	} catch (e) {
+
+	}
+	return false;
+}
+
+function isJson(data) {
+	if (typeof data == 'object'
+			&& Object.prototype.toString.call(data).toLowerCase() == "[object object]"
+			&& !data.length) {
+		return true;
+	} else {
+		return false;
+	}
+
+}
 
 function getAesString(data, key, iv) {
 	const key1 = CryptoJS.enc.Utf8.parse(key);
@@ -117,14 +193,14 @@ function getAesString(data, key, iv) {
 }
 
 function getAES(data) {
-	var timestamp=new Date().getTime();
-	var key = getRandom1(4,19)+timestamp;
-	var iv = getRandom1(4,3)+timestamp;
-	const encrypted = getAesString(data, key, iv);
+	var data1 = handledata(data);
+	console.log(data1);
+	var timestamp = new Date().getTime();
+	var key = getRandom1(4, 19) + timestamp;
+	var iv = getRandom1(4, 3) + timestamp;
+	const encrypted = getAesString(data1, key, iv);
 	const encrypted1 = CryptoJS.enc.Utf8.parse(encrypted);
-	const crykey= getRsaEncry(key);
+	const crykey = getRsaEncry(key);
 	const cryiv = getRsaEncry(iv);
-	return encrypted+"|"+crykey+"|"+cryiv;
+	return encrypted + "|" + crykey + "|" + cryiv;
 }
-
-

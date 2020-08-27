@@ -3,7 +3,6 @@ package com.mry.shrio.filter;
 import com.google.common.collect.Maps;
 import com.mry.config.PropertyUtil;
 import com.mry.shiro.token.IUserPasswordToken;
-import com.mry.system.pojo.User;
 import com.mry.util.CookieUtils;
 import com.mry.util.IpUtils;
 import com.mry.util.ObjectUtils;
@@ -22,6 +21,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -60,6 +60,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		// TODO Auto-generated method stub
 		String username = getUsername(request, response);
 		String passwd = getPassword(request);
+		passwd = DigestUtils.md5Hex(username+passwd + SecurityConfigUtils.USERPASSKEY);
 		boolean remeberMe = isRememberMe(request);
 		String host = getHost(request);
 		Map<String, Object> extmap = ServletUtils.getExtParams(request);
@@ -88,11 +89,8 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		if (StringUtils.isBlank(username)) {
 			username = ObjectUtils.toString((request.getAttribute(getUsernameParam())), StringUtils.EMPTY);
 		}
-		String loginsk = SecurityConfigUtils.AES_LOGIN_SK;
-		if (StringUtils.isNotBlank(loginsk)) {
-			if (StringUtils.isBlank(username)) {
-				logger.info("the login username is null or the decode the username is wrong ...");
-			}
+		if (StringUtils.isBlank(username)) {
+			logger.info("the login username is null or the decode the username is wrong ...");
 		}
 		if (WebUtils.isTrue(request, REMEMBER_ME_USER)) {
 			rememberMeCookie.setValue(XssUtil.encodeUrl(XssUtil.xssFilter(username)));
@@ -105,7 +103,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 			}
 
 		}
-		return username;
+		return DigestUtils.md5Hex(username + SecurityConfigUtils.USERNAMEMD5SALT);
 	}
 
 	@Override
@@ -115,14 +113,11 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		if (StringUtils.isBlank(password)) {
 			password = ObjectUtils.toString(request.getAttribute(getPasswordParam()), StringUtils.EMPTY);
 		}
-		String secretKey = SecurityConfigUtils.AES_PASSWD_SK;
-		if (StringUtils.isNotBlank(secretKey)) {
-			if (StringUtils.isBlank(password)) {
-				logger.info("the password is null or the password decode wrong ...");
-				throw new AuthenticationException("the password is null or the password decode wrong ...");
-			}
+		if (StringUtils.isBlank(password)) {
+			logger.info("the password is null or the password decode wrong ...");
+			throw new AuthenticationException("the password is null or the password decode wrong ...");
 		}
-		return password;
+		return DigestUtils.md5Hex(password + SecurityConfigUtils.PASSWORDKEY);
 	}
 
 	@Override
@@ -183,7 +178,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 			}
 		} else {
 			if (!super.isAccessAllowed(request, response, null)) {
-				// redirectToLogin(request, response); // 此过滤器优先级较高，未登录，则跳转登录页，方便 CAS 登录
+				// redirectToLogin(request, response);
 				return IViewFilter.filter(request, response, null, false);
 			}
 			// return IViewFilter.filter(request, response, null, false);
@@ -263,7 +258,7 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		if (ServletUtils.isAjaxRequest(((HttpServletRequest) request))) {
 			Map<String, Object> data = getLoginFailureData(((HttpServletRequest) request),
 					((HttpServletResponse) response));
-			ServletUtils.renderResult(((HttpServletResponse) response), SecurityConfigUtils.TRUE, message, data);
+			ServletUtils.renderResult(((HttpServletResponse) response), SecurityConfigUtils.TRUE, "", data);
 			return false;
 		}
 
@@ -305,19 +300,15 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	public static Map<String, Object> getLoginFailureData(HttpServletRequest request, HttpServletResponse response) {
 		Map<String, Object> data = Maps.newHashMap();
 
-		String username = WebUtils.getCleanParam(request, DEFAULT_USERNAME_PARAM);
-		boolean rememberMe = WebUtils.isTrue(request, DEFAULT_REMEMBER_ME_PARAM);
-		boolean rememberUserCode = WebUtils.isTrue(request, REMEMBER_ME_USER);
-		Exception exception = (Exception) request.getAttribute(EXCEPTION_NAME);
+		// String username = WebUtils.getCleanParam(request, DEFAULT_USERNAME_PARAM);
+		// boolean rememberMe = WebUtils.isTrue(request, DEFAULT_REMEMBER_ME_PARAM);
+		// boolean rememberUserCode = WebUtils.isTrue(request, REMEMBER_ME_USER);
+		// Exception exception = (Exception) request.getAttribute(EXCEPTION_NAME);
 		String message = (String) request.getAttribute(LOGIN_RES_MESSAGE);
 
-		String secretKey = SecurityConfigUtils.AES_LOGIN_SK;
-		if (StringUtils.isNotBlank(secretKey)) {
-		}
-
-		data.put(DEFAULT_USERNAME_PARAM, username);
-		data.put(DEFAULT_REMEMBER_ME_PARAM, rememberMe);
-		data.put(REMEMBER_ME_USER, rememberUserCode);
+		// data.put(DEFAULT_USERNAME_PARAM, username);
+		// data.put(DEFAULT_REMEMBER_ME_PARAM, rememberMe);
+		// data.put(REMEMBER_ME_USER, rememberUserCode);
 		Map<String, Object> paramMap = ServletUtils.getExtParams(request);
 		for (Entry<String, Object> entry : paramMap.entrySet()) {
 			data.put(ServletUtils.EXT_PARAMS_PREFIX + entry.getKey(), entry.getValue());
@@ -325,13 +316,13 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		data.put(LOGIN_RES_MESSAGE, message);
 
 		// 记录用户登录失败日志
-		String corpCode = (String) paramMap.get("corpCode");
-		User user = ShiroUtil.getByLoginCode(username, corpCode);
+		// String corpCode = (String) paramMap.get("corpCode");
+		// User user = ShiroUtil.getByLoginCode(username, corpCode);
 		// LogUtils.saveLog(user, request, "登录失败", Log.TYPE_LOGIN_LOGOUT);
 
 		// 获取当前会话对象
-		Session session = ShiroUtil.getSession();
-		data.put("sessionid", (String) session.getId());
+		// Session session = SessionUtils.getSession();
+		// data.put("sessionid", (String) session.getId());
 
 		data.put("result", SecurityConfigUtils.FALSE);
 		return data;

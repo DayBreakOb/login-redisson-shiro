@@ -33,6 +33,13 @@ public class SecurityConfigUtils {
 	public static final String[] ALLOW_REMOTE_ADDRESS = { "127.0.0.1","localhost","0:0:0:0:0:0:0:1"};
 
 	public static final String AJAXLOGIN = "/_login_";
+	
+	public static final String USERNAMEMD5SALT="KOz0MEdTsSXF4yIktVoPbjHaQ9qCnilJ";
+
+	public static final String PASSWORDKEY = "GAvd0un9gpcr2EXUbl1mPeMBHfWJzZtR";
+
+	public static final String USERPASSKEY = "l406qesKQgotXGzufHmdD3kji9ycVNnE";
+	
 
 	public static boolean isGenerateNewSessionAfterLogin = false;
 
