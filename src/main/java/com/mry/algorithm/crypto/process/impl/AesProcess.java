@@ -84,13 +84,12 @@ public class AesProcess extends AbstractProcess {
 	 * aes加密-128位
 	 * 
 	 */
-	public static  String AesEncrypt(String content ,String key){
-		if (StringUtils.isEmpty(key) || key.length() != 16) {
-			throw new RuntimeException("密钥长度为16位");
+	public static  String AesEncrypt(String content ,String key,String iv){
+		if (StringUtils.isEmpty(key) || key.length() != 32) {
+			throw new RuntimeException("密钥长度为32位");
 		}
 		try {
-			String iv = key;
-			Cipher cipher = Cipher.getInstance("AES/CBC/NoPadding");
+			Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 			int blockSize = cipher.getBlockSize();
 			byte[] dataBytes = content.getBytes("utf-8");
 			int plaintextLength = dataBytes.length;
@@ -104,7 +103,6 @@ public class AesProcess extends AbstractProcess {
 			cipher.init(Cipher.ENCRYPT_MODE, keyspec, ivspec);
 			byte[] encrypted = cipher.doFinal(plaintext);
 			return byte2Hex(encrypted);
-
 		} catch (Exception e) {
 			throw new RuntimeException("aes加密发生错误", e);
 		}

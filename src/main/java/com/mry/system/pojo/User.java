@@ -9,7 +9,118 @@ import java.util.Date;
 @Repository
 public class User implements Serializable {
 
-    private static final long serialVersionUID = -4352868070794165001L;
+
+
+
+	public String getFirstname() {
+		return firstname;
+	}
+
+
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+
+
+	public String getLastname() {
+		return lastname;
+	}
+
+
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+
+
+	public String getLoginId() {
+		return loginId;
+	}
+
+
+
+	public void setLoginId(String loginId) {
+		this.loginId = loginId;
+	}
+
+
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+
+
+	public Date getModifyTime() {
+		return modifyTime;
+	}
+
+
+
+	public void setModifyTime(Date modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+
+
+	public String getEmail() {
+		return email;
+	}
+
+
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+
+	public String getMobile() {
+		return mobile;
+	}
+
+
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+
+
+	public String getStatus() {
+		return status;
+	}
+
+
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+
+
+	public String getExt() {
+		return ext;
+	}
+
+
+
+	public void setExt(String ext) {
+		this.ext = ext;
+	}
+
+
+
+	private static final long serialVersionUID = -4352868070794165001L;
 
     /**
      * 用户状态：有效
@@ -60,23 +171,13 @@ public class User implements Serializable {
     /**
      * 用户 ID
      */
-    private Long userId;
+    private String loginId;
 
-    /**
-     * 用户名
-     */
 
-    private String username;
+    private Date createTime;
 
-    /**
-     * 密码
-     */
-    private String password;
+    private Date modifyTime;
 
-    /**
-     * 部门 ID
-     */
-    private Long deptId;
 
     /**
      * 邮箱
@@ -93,262 +194,16 @@ public class User implements Serializable {
      */
     private String status;
 
-    /**
-     * 创建时间
-     */
-    private Date createTime;
+    
+    private String firstname;
+    
+    private String lastname;
 
-    /**
-     * 修改时间
-     */
-    private Date modifyTime;
 
-    /**
-     * 最近访问时间
-     */
-    private Date lastLoginTime;
+    private String ext;
 
-    /**
-     * 性别 0男 1女 2 保密
-     */
-    private String sex;
 
-    /**
-     * 头像
-     */
-    private String avatar;
 
-    /**
-     * 主题
-     */
-    private String theme;
 
-    /**
-     * 是否开启 tab 0开启，1关闭
-     */
-    private String isTab;
 
-    /**
-     * 描述
-     */
-    private String description;
-
-    /**
-     * 部门名称
-     */
-    private String deptName;
-
-    private String createTimeTo;
-    /**
-     * 角色 ID
-     */
-    private String roleId;
-
-    private String roleName;
-
-    private String deptIds;
-
-    public static String getStatusValid() {
-        return STATUS_VALID;
-    }
-
-    public static String getStatusLock() {
-        return STATUS_LOCK;
-    }
-
-    public static String getDefaultAvatar() {
-        return DEFAULT_AVATAR;
-    }
-
-    public static String getDefaultPassword() {
-        return DEFAULT_PASSWORD;
-    }
-
-    public static String getSexMale() {
-        return SEX_MALE;
-    }
-
-    public static String getSexFemale() {
-        return SEX_FEMALE;
-    }
-
-    public static String getSexUnknow() {
-        return SEX_UNKNOW;
-    }
-
-    public static String getThemeBlack() {
-        return THEME_BLACK;
-    }
-
-    public static String getThemeWhite() {
-        return THEME_WHITE;
-    }
-
-    public static String getTabOpen() {
-        return TAB_OPEN;
-    }
-
-    public static String getTabClose() {
-        return TAB_CLOSE;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(Long deptId) {
-        this.deptId = deptId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Date modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
-    public Date getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public String getIsTab() {
-        return isTab;
-    }
-
-    public void setIsTab(String isTab) {
-        this.isTab = isTab;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
-
-    public String getCreateTimeTo() {
-        return createTimeTo;
-    }
-
-    public void setCreateTimeTo(String createTimeTo) {
-        this.createTimeTo = createTimeTo;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public String getDeptIds() {
-        return deptIds;
-    }
-
-    public void setDeptIds(String deptIds) {
-        this.deptIds = deptIds;
-    }
 }

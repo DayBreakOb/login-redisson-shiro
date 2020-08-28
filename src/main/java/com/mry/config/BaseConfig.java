@@ -31,5 +31,8 @@ public class BaseConfig {
 	
 	public static int requestMinLogin =6;
 	public static int requestMaxLogin =60;
+	
+	
+	public static String resetPassUrl ="localhost:10090/repass.html";
 
 }

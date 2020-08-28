@@ -113,11 +113,12 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 		if (StringUtils.isBlank(password)) {
 			password = ObjectUtils.toString(request.getAttribute(getPasswordParam()), StringUtils.EMPTY);
 		}
+		password =  DigestUtils.md5Hex(password + SecurityConfigUtils.PASSWORDKEY);
 		if (StringUtils.isBlank(password)) {
 			logger.info("the password is null or the password decode wrong ...");
 			throw new AuthenticationException("the password is null or the password decode wrong ...");
 		}
-		return DigestUtils.md5Hex(password + SecurityConfigUtils.PASSWORDKEY);
+		return password;
 	}
 
 	@Override

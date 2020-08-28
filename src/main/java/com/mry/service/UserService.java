@@ -10,7 +10,9 @@ import com.mry.system.pojo.User;
 public interface UserService {
 
 
-    User findUserByName(String userName);
+    User findUserByName(String password);
 
-	void registerUser(Map<String, String> map);
+	Map<String, String> registerUser(Map<String, String> map);
+
+	boolean resetPassword(Map<String, String> map);
 }

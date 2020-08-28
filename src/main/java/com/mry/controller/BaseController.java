@@ -20,6 +20,8 @@ import com.mry.system.pojo.User;
 public class BaseController {
 
 	protected static String SUCCESS = "SUCCESS";
+	
+	protected static String FAILURE = "FAILURE";
 
 	private Subject getSubject() {
 		return SecurityUtils.getSubject();

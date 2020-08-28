@@ -55,7 +55,7 @@ public class ShiroRealm extends IAuthorizingRealm {
         logger.info("the doGetAuthorizationInfo principalCollection has been used ...");
         User user = (User) SecurityUtils.getSubject().getPrincipal();
 
-        String username = user.getUsername();
+        String username = user.getFirstname();
         SimpleAuthorizationInfo sac = new SimpleAuthorizationInfo();
 
         List<Role> roleList = roleService.FindRoleByUser(username);
@@ -82,7 +82,7 @@ public class ShiroRealm extends IAuthorizingRealm {
         }
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
-        User user = userService.findUserByName(username);
+        User user = userService.findUserByName(password);
         //if you want to limit the login session by the username ,
         // start it  in your properties spring.shiro.issinglelogin;
         if (BaseConfig.IsSingleLogin) {
@@ -103,7 +103,7 @@ public class ShiroRealm extends IAuthorizingRealm {
                 }
             }
         }
-        if (user == null || !StringUtils.equals(password, user.getPassword())) {
+        if (user == null || !StringUtils.equals(password, user.getLoginId())) {
 
             throw new IncorrectCredentialsException("用户名或密码错误");
         }
@@ -118,7 +118,7 @@ public class ShiroRealm extends IAuthorizingRealm {
     public void onLogoutSuccess(User user,HttpServletRequest request) {
     	// TODO Auto-generated method stub
     	
-    	logger.info("the user "+user.getUsername()+"  is logout");
+    	logger.info("the user "+user.getFirstname()+"  is logout");
     }
 
 }

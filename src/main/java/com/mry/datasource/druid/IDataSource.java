@@ -66,6 +66,9 @@ public class IDataSource {
 			// new resources"classpath*:sqlmap/*-mapper.xml"
 			Resource[] mappers = resourceResplver.getResources("classpath*:sqlmap/*-mapper.xml");
 			sqlSessionFactoryBean.setMapperLocations(mappers);
+			org.apache.ibatis.session.Configuration mcc = new org.apache.ibatis.session.Configuration();
+			mcc.setMapUnderscoreToCamelCase(true);
+			sqlSessionFactoryBean.setConfiguration(mcc);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -73,6 +73,7 @@ public class IUrlFilter implements Filter {
 				return map;
 			} else {
 				String strconten = AesProcess.AesDecrypt(content, aeskey, aesiv);
+				strconten=strconten.replaceAll("\\s*", "");
 				map=new Gson().fromJson(strconten,Map.class);
 				return map;
 			}
