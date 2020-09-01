@@ -5,22 +5,24 @@
 
 
    <select id="isExistsUser" parameterType="string" resultType="java.lang.Integer">
-   select count(*) from mry_user m where m.username = #{username}
+   select count(*) from mry_user m where m.username = #{username} and m.status = '1'
    </select>
    
    <select id="findUser" parameterType="java.util.Map" resultType="com.mry.system.pojo.User">
-   select * from mry_user m where m.firstname=#{firstname} and m.email=#{email}
+   select * from mry_user m where m.firstname=#{firstname} and m.email=#{email} and m.status = '1'
    </select>
 
 	<select id="findByName" parameterType="string"
 		resultType="com.mry.system.pojo.User">
-	select * from mry_user m where m.login_id = #{login_id}
+	select * from mry_user m where m.login_id = #{login_id} and m.status = '1'
 	</select>
 
 
 	<insert id="registerUser" parameterType="java.util.Map">
 		insert into
-		mry_user(login_id,create_time,modify_time,mobile,email,username,firstname,lastname,ext)values(#{login_id},sysdate(),sysdate(),#{mobile},#{email},#{username},#{firstname},#{lastname},#{ext})
+		mry_user(login_id,create_time,modify_time,mobile,email,username,firstname,lastname,ext,status)values(#{login_id},sysdate(),sysdate(),#{mobile},#{email},#{username},#{firstname},#{lastname},#{ext},'1')
 	</insert>
 
+
+   <update id="updateUserStatus" parameterType="java.util.Map" >update mry_user m set m.status = '2' where  m.firstname=#{firstname} and m.email=#{email}</update> 
 </mapper>

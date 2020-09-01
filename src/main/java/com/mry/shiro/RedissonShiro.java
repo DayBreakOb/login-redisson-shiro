@@ -90,7 +90,7 @@ public class RedissonShiro extends ShiroConfig {
 		CookieRememberMeManager cookieremme = new CookieRememberMeManager();
 		cookieremme.setCookie(remeberMeCookie());
 		String encryKey = "SHIRO_KEY";
-		String remeberKey = AesProcess.AesEncrypt(encryKey, SecurityConfigUtils.AES_REMBER_KEY);
+		String remeberKey = AesProcess.AesEncrypt(encryKey, SecurityConfigUtils.AES_REMBER_KEY,SecurityConfigUtils.AES_REMBER_IV);
 		cookieremme.setCipherKey(AesProcess.hex2Bytes(remeberKey));
 		return cookieremme;
 	}

@@ -28,7 +28,7 @@ public class SendEmailUtil {
 	static String host = "smtp.qq.com";
 	static Properties properties = new Properties();
 	static Session sesiSession;
-	static String subject="Reset your password for mry";
+	static String subject = "Reset your password for mry";
 	static {
 		properties.put("mail.smtp.host", host);
 		properties.put("mail.smtp.auth", "true");
@@ -43,7 +43,7 @@ public class SendEmailUtil {
 		properties.put("mail.smtp.ssl.socketFactory", sf);
 		sf.setTrustAllHosts(true);
 
-		if (sesiSession==null) {
+		if (sesiSession == null) {
 			init();
 		}
 	}
@@ -70,7 +70,11 @@ public class SendEmailUtil {
 					message.setFrom(new InternetAddress(sender));
 					message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
 					message.setSubject(subject);
-					message.setText("this is a link for yor change password  ;it will effective in 10 min ... "+content);
+					message.setContent("<html lang='zh-CN'><head ><meta charset='utf-8'>"
+							+ "</head><body>"
+							+ "<a href='" + content + "'>this is a link for yor change password  ;it will effective in 3 min ... "+content+"</a></body></html>", "text/html;charset=utf-8");
+					// message.setContent("this is a link for yor change password ;it will effective
+					// in 10 min ... \n"+content,"text/html;charset=UTF-8");
 					Transport.send(message);
 				} catch (AddressException e) {
 					// TODO Auto-generated catch block
@@ -84,5 +88,4 @@ public class SendEmailUtil {
 
 	}
 
-	
 }

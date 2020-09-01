@@ -194,7 +194,6 @@ function getAesString(data, key, iv) {
 
 function getAES(data) {
 	var data1 = handledata(data);
-	console.log(data1);
 	var timestamp = new Date().getTime();
 	var key = getRandom1(4, 19) + timestamp;
 	var iv = getRandom1(4, 3) + timestamp;

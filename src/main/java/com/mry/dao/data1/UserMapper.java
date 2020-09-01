@@ -24,6 +24,8 @@ public interface UserMapper  {
 
 	User findUser(Map<String, String> map);
 
+	void updateUserStatus(Map<String, String> someobj);
+
    
 
 

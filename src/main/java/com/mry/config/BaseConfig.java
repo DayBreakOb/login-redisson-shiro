@@ -10,6 +10,9 @@ public class BaseConfig {
 
 
 
+	public static final String urlForRest = "http://localhost:10090/resetpass.html?";
+	public static final String ivForRest = "WjJVhiGPKuyxSmIt";
+
 	public static boolean IsSingleLogin;
 
 	@Value("${spring.shiro.issinglelogin:false}")
@@ -28,11 +31,13 @@ public class BaseConfig {
 	public static String xssExcludes = "/favicon.ico,/img/,/js/,/css/,/assets/,/dist/,/vendor/,/images/";
 	
 	public static String loginRsaPriFilePath = "/u01/cryptopem/rsa_1024_pri_pkcs8.pem";
+	public static String restRsapubFilePath = "/u01/cryptopem/rsa_1024_pub.pem";
 	
 	public static int requestMinLogin =6;
 	public static int requestMaxLogin =60;
 	
 	
 	public static String resetPassUrl ="localhost:10090/repass.html";
+	public static long resetInterval=3600*1000;
 
 }

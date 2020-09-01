@@ -15,4 +15,6 @@ public interface UserService {
 	Map<String, String> registerUser(Map<String, String> map);
 
 	boolean resetPassword(Map<String, String> map);
+
+	Map<String, String> updateUserPassword(Map<String, String> someobj);
 }

@@ -28,7 +28,7 @@ public class SecurityConfigUtils {
 	public static final boolean TRUE = true;
 	public static final boolean FALSE = false;
 
-	public static final String AES_REMBER_KEY = "r9%TVb{j8z>71vC=";
+	public static final String AES_REMBER_KEY = "8jqLo4tAiM5n1kbIlsTcyGFCr9a6XNYJ";
 
 	public static final String[] ALLOW_REMOTE_ADDRESS = { "127.0.0.1","localhost","0:0:0:0:0:0:0:1"};
 
@@ -39,6 +39,8 @@ public class SecurityConfigUtils {
 	public static final String PASSWORDKEY = "GAvd0un9gpcr2EXUbl1mPeMBHfWJzZtR";
 
 	public static final String USERPASSKEY = "l406qesKQgotXGzufHmdD3kji9ycVNnE";
+
+	public static final String AES_REMBER_IV = "qInMSs3LhN68R4y0";
 	
 
 	public static boolean isGenerateNewSessionAfterLogin = false;

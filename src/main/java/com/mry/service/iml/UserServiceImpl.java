@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 import com.mry.dao.data1.UserMapper;
-import com.mry.mail.SendEmailUtil;
 import com.mry.service.UserService;
 import com.mry.system.pojo.User;
 import com.mry.util.SecurityConfigUtils;
@@ -71,6 +71,21 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		return true;
+	}
+	
+	
+
+	@Override
+	public Map<String, String> updateUserPassword(Map<String, String> someobj) {
+		// TODO Auto-generated method stub
+		Map<String, String> result = Maps.newHashMap();
+		User user=userMapper.findUser(someobj);
+		userMapper.updateUserStatus(someobj);
+		String ujson = new Gson().toJson(user);
+		Map<String,String> map = new Gson().fromJson(ujson, Map.class);
+		map.putAll(someobj);
+		result=this.registerUser(map);
+		return result;
 	}
 	
 	

@@ -35,6 +35,7 @@ public class IUrlFilter implements Filter {
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpServletRequest req = WebUtils.toHttp(request);
+		String path  = req.getServletPath();
 		String md = req.getMethod();
 		if ("POST".equals(md) || "post".equals(md)) {
 			Map<String, String> params = decodeParams(request, response);
