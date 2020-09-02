@@ -251,7 +251,7 @@ public class HttpsClient {
 		return result;
 	}
 
-	private static class IdleConnectionMonitorThread extends Thread {
+	public static class IdleConnectionMonitorThread extends Thread {
 
 		private final HttpClientConnectionManager connMgr;
 		private final String uuid;
