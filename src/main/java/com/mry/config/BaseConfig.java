@@ -30,14 +30,15 @@ public class BaseConfig {
 	
 	public static String xssExcludes = "/favicon.ico,/img/,/js/,/css/,/assets/,/dist/,/vendor/,/images/";
 	
-	public static String loginRsaPriFilePath = "/u01/cryptopem/rsa_1024_pri_pkcs8.pem";
-	public static String restRsapubFilePath = "/u01/cryptopem/rsa_1024_pub.pem";
+	public static String loginRsaPriFilePath = "/u01/cryptopem/rsa_private_key_pkcs8.pem";
+	public static String restRsapubFilePath = "/u01/cryptopem/rsa_publick_key.pem";
 	
-	public static int requestMinLogin =6;
-	public static int requestMaxLogin =60;
+	public static int requestMinLogin =15;
+	public static int requestMaxLogin =100;
 	
 	
 	public static String resetPassUrl ="localhost:10090/repass.html";
 	public static long resetInterval=3600*1000;
+	public static String postNoParamRequireExcludes="/logout";
 
 }

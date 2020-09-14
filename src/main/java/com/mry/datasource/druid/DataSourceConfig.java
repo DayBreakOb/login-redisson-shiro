@@ -2,7 +2,7 @@ package com.mry.datasource.druid;
 
 public class DataSourceConfig {
 
-	protected static String datasource1url = "jdbc:mysql://127.0.0.1:3308/mry_test?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8";
+	protected static String datasource1url = "jdbc:mysql://172.17.0.4:3306/mry_test?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8";
 	protected static String username1 = "root";
 	protected static String password1 = "465123Yanghu";
 	protected static String driver1 = "com.mysql.cj.jdbc.Driver";
@@ -19,7 +19,7 @@ public class DataSourceConfig {
 	protected static boolean poolPreparedStatements = true;
 	protected static int maxPoolPreparedStatementPerConnectionSize = 20;
 
-	protected static String datasource1url2 = "jdbc:mysql://127.0.0.1:3308/mry_test?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8";
+	protected static String datasource1url2 = "jdbc:mysql://172.17.0.4:3306/mry_test?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2b8";
 	protected static String username2 = "root";
 	protected static String password2 = "465123Yanghu";
 	protected static String driver2 = "com.mysql.cj.jdbc.Driver";

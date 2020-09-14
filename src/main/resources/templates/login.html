@@ -143,6 +143,7 @@
 					var obj = oReq.response;
 					if ("success" == obj) {
 						location.href = "/index.html";
+						setTimeOut(()=>{location.reload(true)},1000); 
 					} else {
 						alert(obj);
 					}

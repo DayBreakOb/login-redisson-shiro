@@ -22,6 +22,7 @@ public class ILogoutFilter extends LogoutFilter {
 		setRedirectUrl(BaseConfig.loginUrl);
 		
 	}
+	
 
 	@Override
 	protected boolean preHandle(ServletRequest request, ServletResponse response) throws Exception {

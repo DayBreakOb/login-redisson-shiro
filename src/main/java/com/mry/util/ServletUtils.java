@@ -4,8 +4,11 @@ package com.mry.util;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.TreeMap;
 
 import javax.servlet.ServletRequest;
@@ -389,6 +392,20 @@ public class ServletUtils {
         }
         return null;
     }
+	public static boolean handleExcludeUrl(HttpServletRequest request,List<String> excludes) {
+		if (excludes == null || excludes.isEmpty()) {
+			return false;
+		}
+		String url = request.getServletPath();
+		for (String xx : excludes) {
+			Pattern pattern = Pattern.compile("^" + xx, Pattern.CASE_INSENSITIVE);
+			Matcher matcher = pattern.matcher(url);
+			if (matcher.find()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 
 }

@@ -188,13 +188,13 @@ public class IFormAuthenticationFilter extends FormAuthenticationFilter {
 	}
 
 	/**
-	 * 是否为登录操作（支持GET或CAS登录时传递__login=true参数）
+	 * 是否为登录操作（登录时传递__login=true参数）
 	 */
 	@Override
 	protected boolean isLoginRequest(ServletRequest request, ServletResponse response) {
 		boolean isLogin = WebUtils.isTrue(request, "__login");
 		boolean xx = super.isLoginRequest(request, response);
-		if (xx) {
+		if (xx||isLogin) {
 			HttpServletRequest req = (HttpServletRequest) request;
 			String method = req.getMethod();
 			if (!("POST".equalsIgnoreCase(method))) {

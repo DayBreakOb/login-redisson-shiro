@@ -37,6 +37,9 @@ public class FilterConfig {
 		filterbean.setEnabled(true);
 		filterbean.addUrlPatterns("/*");
 		filterbean.setName("urlfilter");
+		Map<String, String> initParameters = new HashMap<>(2);
+		initParameters.put("excludes", BaseConfig.postNoParamRequireExcludes);
+		filterbean.setInitParameters(initParameters);
 		return filterbean;
 	}
 }

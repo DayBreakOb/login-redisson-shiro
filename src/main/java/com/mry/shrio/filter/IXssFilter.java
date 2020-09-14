@@ -19,6 +19,7 @@ import org.apache.shiro.web.util.WebUtils;
 
 import com.mchange.v1.lang.BooleanUtils;
 import com.mry.http.wrapper.XssHttpServletRequestWrapper;
+import com.mry.util.ServletUtils;
 import com.mry.util.StringUtils;
 
 public class IXssFilter implements Filter {
@@ -49,7 +50,7 @@ public class IXssFilter implements Filter {
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		HttpServletRequest hreq = WebUtils.toHttp(request);
-		if (handleExcludeUrl(hreq)) {
+		if (ServletUtils.handleExcludeUrl(hreq,excludes)) {
 			chain.doFilter(request, response);
 			return;
 		}
@@ -57,19 +58,5 @@ public class IXssFilter implements Filter {
 		chain.doFilter(xssrequest, response);
 	}
 
-	private boolean handleExcludeUrl(HttpServletRequest request) {
-		if (excludes == null || excludes.isEmpty()) {
-			return false;
-		}
-		String url = request.getServletPath();
-		for (String xx : excludes) {
-			Pattern pattern = Pattern.compile("^" + xx, Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(url);
-			if (matcher.find()) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 }
